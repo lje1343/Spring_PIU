@@ -38,7 +38,7 @@ public class ProjectFileRestController {
     @PostMapping("/upload")
     @ResponseBody
     public List<ProjectFileVO> upload(MultipartFile[] uploadFiles) throws IOException {
-        String uploadFolder = "/Users/minmin/aigb_0900_sms/upload/";
+        String uploadFolder = "C:/upload";
         ArrayList<ProjectFileVO> files = new ArrayList<>();
 
 //        yyyy/MM/dd 경로 만들기
@@ -108,7 +108,7 @@ public class ProjectFileRestController {
     @GetMapping("/display")
     @ResponseBody
     public byte[] getFile(String fileName) throws IOException{
-        File file = new File("/Users/minmin/aigb_0900_sms/upload/", fileName);
+        File file = new File("C:/upload", fileName);
         return FileCopyUtils.copyToByteArray(file);
     }
 
@@ -141,7 +141,7 @@ public class ProjectFileRestController {
     @GetMapping("/download")
     @ResponseBody
     public ResponseEntity<Resource> downloadFile(String fileName) throws UnsupportedEncodingException {
-        Resource resource = new FileSystemResource("/Users/minmin/aigb_0900_sms/upload/" + fileName);
+        Resource resource = new FileSystemResource("C:/upload" + fileName);
         HttpHeaders header = new HttpHeaders();
         String name = resource.getFilename();
         name = name.substring(name.indexOf("_") + 1);
