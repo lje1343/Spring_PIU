@@ -28,13 +28,16 @@ public class MainController {
     public String main(HttpSession session, Model model,HttpServletRequest request) throws ParseException {
        int checkLogin=0;
         System.out.println("=============="+request.getRequestURI().split("/")[1]);
-
+        Long userNum = (Long)(session.getAttribute("num"));
         if(session.getAttribute("token")!=null){
             checkLogin = 2;
+            model.addAttribute("userNum",userNum);
         }else if(session.getAttribute("num")!=null&&session.getAttribute("nickname")!=null){
             checkLogin= 3;
+            model.addAttribute("userNum",userNum);
         }else{
            checkLogin= 1;
+            model.addAttribute("userNum",userNum);
        }
         model.addAttribute("fileName",session.getAttribute("fileName"));
         model.addAttribute("uploadPath",session.getAttribute("uploadPath"));

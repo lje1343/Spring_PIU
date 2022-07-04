@@ -174,11 +174,13 @@ public class ProjectService {
     // 찜 추가
     public void addJjim(JjimVO jjimVO){
         jjimDAO.myProjectJjimInsert(jjimVO);
+//        projectDAO.jjimPlus(jjimVO.getProjectNum());
     }
 
     // 찜 해제
     public void removeJjim(JjimVO jjimVO){
-        jjimDAO.myProjectJjimDelete(jjimVO);
+        jjimDAO.myProjectJjimDelete( jjimVO);
+//        projectDAO.jjimMinus(jjimVO.getProjectNum());
     }
 
     // 프로젝트 지원
@@ -427,5 +429,13 @@ public class ProjectService {
         return jjimDAO.myProjectJjimCount(projectNum);
     }
 
+    //찜 추가
+    public void jjimPlus(Long projectNum){
+        projectDAO.jjimPlus(projectNum);
+    }
+    //찜 마이너스
+    public void jjimMinus(Long projectNum){
+        projectDAO.jjimMinus(projectNum);
+    }
 
 }

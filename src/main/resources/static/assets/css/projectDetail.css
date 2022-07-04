@@ -314,8 +314,8 @@ body {
     justify-content: center;
     -webkit-box-align: center;
     align-items: center;
-    font-size: 0px;
     width: 18px;
+    font-size: 15px;
     height: 18px;
     margin-right: 4px;
 }
@@ -1391,6 +1391,9 @@ share_container{
 
 .material-icons-outlined like{
     color:red;
+}
+.material-icons{
+    color: red;
 }
 
 #likebtn{

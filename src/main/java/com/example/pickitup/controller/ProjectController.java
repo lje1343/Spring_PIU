@@ -136,6 +136,8 @@ public class ProjectController {
     @ResponseBody
     public void addJjim(@RequestBody JjimVO jjimVO){
         projectService.addJjim(jjimVO);
+        projectService.jjimPlus(jjimVO.getProjectNum());
+
     }
 
     // 프로젝트 찜 해제
@@ -143,6 +145,7 @@ public class ProjectController {
     @ResponseBody
     public void removeJjim(@RequestBody JjimVO jjimVO){
         projectService.removeJjim(jjimVO);
+        projectService.jjimMinus(jjimVO.getProjectNum());
     }
 
     // 프로젝트 찜 개수

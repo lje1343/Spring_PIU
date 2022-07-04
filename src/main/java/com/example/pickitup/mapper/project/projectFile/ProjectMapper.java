@@ -79,4 +79,9 @@ public interface ProjectMapper {
     // 지형 검색
     public List<ProjectVO> getListTerrain(String terrain);
 
+    //찜 한개 올리기
+    public void jjimPlus(Long projectNum);
+    //찜 한개 내리기
+    public void jjimMinus(Long projectNum);
+
 }

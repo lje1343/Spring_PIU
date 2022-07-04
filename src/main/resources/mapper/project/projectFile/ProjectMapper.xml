@@ -59,6 +59,17 @@
        DELETE FROM TBL_PROJECT WHERE NUM = #{num}
     </delete>
 
+    <update id="jjimPlus">
+    update TBL_PROJECT
+    set JJIM_COUNT = JJIM_COUNT+1
+    WHERE NUM = #{num}
+    </update>
+    <update id="jjimMinus">
+    update TBL_PROJECT
+    set JJIM_COUNT = JJIM_COUNT-1
+    WHERE NUM = #{num}
+    </update>
+
 
     <!--    관리자용 프로젝트 전체 목록 불러오기-->
     <select id="getProjectList" resultType="projectDTO">
