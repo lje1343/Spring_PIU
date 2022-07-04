@@ -52,6 +52,35 @@ public class ProjectService {
     }
 
 
+    // 프로젝트 목록(찜순)
+    public List<ProjectMainDTO> getListTotalSearch() throws ParseException {
+        List<ProjectMainDTO> projectMainDTOS = new ArrayList<>();
+        List<ProjectVO> projectVOS = projectDAO.getList();
+
+        for(ProjectVO pp : projectVOS){
+            String strDate = pp.getStartTime();  // 기준 날짜 데이터 (("yyyy-MM-dd")의 형태)
+            String todayFm = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis())); // 오늘날짜
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date date = new Date(dateFormat.parse(strDate).getTime());
+            Date today = new Date(dateFormat.parse(todayFm).getTime());
+
+            long calculate = date.getTime() - today.getTime();
+
+            int Ddays = (int) (calculate / ( 24*60*60*1000));
+
+            String Ddate ="";
+            if(Ddays==0){
+                Ddate = "오늘이에요!";
+            }else {
+                Ddate = "D" + Integer.toString(Ddays * (-1));
+            }
+            projectMainDTOS.add(new ProjectMainDTO(pp.getNum(),pp.getTitle(),pp.getTerrain(),pp.getPoint(),pp.getJjimCount(),Ddate,pp.getApplyCount()));
+        }
+        return projectMainDTOS;
+    }
+
     // QR생성 (관리자용)
     public boolean insertQr(Long qrNum, String projectLink1,String projectLink2 ){
         return projectDAO.insertQr(qrNum,projectLink1,projectLink2);
@@ -97,12 +126,15 @@ public class ProjectService {
     @Transactional(rollbackFor = Exception.class)
     public void registerProject (ProjectVO projectVO) {
         //게시글 추가
+        log.info("fileList" + projectVO.getFileList());
         projectDAO.register(projectVO);
+        log.info("진입성공1=======");
         //게시글에 업로드된 첨부파일 정보 중 게시글 번호를 따로 추가
         if(projectVO.getFileList() != null) {
+            log.info("진입성공==============");
             projectVO.getFileList().forEach(projectFileVO -> {
                 log.info("프로젝트 번호 : " + projectVO.getNum());
-                projectFileVO.setProjectNum(projectVO.getNum() + 1);
+                projectFileVO.setProjectNum(projectVO.getNum() + 1l);
                 projectFileDAO.register(projectFileVO);
             });
         }
@@ -141,12 +173,12 @@ public class ProjectService {
 
     // 찜 추가
     public void addJjim(JjimVO jjimVO){
-        jjimDAO.register(jjimVO);
+        jjimDAO.myProjectJjimInsert(jjimVO);
     }
 
     // 찜 해제
     public void removeJjim(JjimVO jjimVO){
-        jjimDAO.remove(jjimVO);
+        jjimDAO.myProjectJjimDelete(jjimVO);
     }
 
     // 프로젝트 지원
@@ -341,16 +373,42 @@ public class ProjectService {
         for(ProjectVO pp : projectVOS){
             String strDate = pp.getStartTime();  // 기준 날짜 데이터 (("yyyy-MM-dd")의 형태)
             String todayFm = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis())); // 오늘날짜
-
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
             Date date = new Date(dateFormat.parse(strDate).getTime());
             Date today = new Date(dateFormat.parse(todayFm).getTime());
-
             long calculate = date.getTime() - today.getTime();
-
             int Ddays = (int) (calculate / ( 24*60*60*1000));
+            String Ddate ="";
+            if(Ddays==0){
+                Ddate = "오늘이에요!";
+            }else {
+                Ddate = "D" + Integer.toString(Ddays * (-1));
+            }
+            projectMainDTOS.add(new ProjectMainDTO(pp.getNum(),pp.getTitle(),pp.getTerrain(),pp.getPoint(),pp.getJjimCount(),Ddate,pp.getApplyCount()));
+        }
+        return projectMainDTOS;
+    }
 
+
+    public List<ProjectVO> getSearchList(String searchStr){
+        return projectDAO.getSearchList(searchStr);
+    }
+
+    // 프로젝트 지형별로 찾기
+    public List<ProjectMainDTO> getListTerrain(String terrain) throws ParseException{
+
+
+        List<ProjectMainDTO> projectMainDTOS = new ArrayList<>();
+        List<ProjectVO> projectVOS = projectDAO.getListTerrain(terrain);
+
+        for(ProjectVO pp : projectVOS){
+            String strDate = pp.getStartTime();  // 기준 날짜 데이터 (("yyyy-MM-dd")의 형태)
+            String todayFm = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis())); // 오늘날짜
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date(dateFormat.parse(strDate).getTime());
+            Date today = new Date(dateFormat.parse(todayFm).getTime());
+            long calculate = date.getTime() - today.getTime();
+            int Ddays = (int) (calculate / ( 24*60*60*1000));
             String Ddate ="";
             if(Ddays==0){
                 Ddate = "오늘이에요!";
@@ -364,11 +422,10 @@ public class ProjectService {
     }
 
 
-    public List<ProjectVO> getSearchList(String searchStr){
-        return projectDAO.getSearchList(searchStr);
+    // 찜 목록
+    public int jjimCount(Long projectNum){
+        return jjimDAO.myProjectJjimCount(projectNum);
     }
 
-    // 프로젝트 지형별로 찾기
-    public List<ProjectVO> getListTerrain(String terrain) { return projectDAO.getListTerrain(terrain);}
 
 }

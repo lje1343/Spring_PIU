@@ -16,6 +16,7 @@ public class ProjectMainDTO {
     private String projectDate;
     private Long applyCount;
 
+
     public ProjectMainDTO(Long num,String title, String terrain, Long point, Long jjimCount, String projectDate, Long applyCount) {
         this.num =num;
         this.title = title;

@@ -37,7 +37,7 @@ public class JjimDAO {
 
     // 찜 갯수
     public int count(Long productNum){
-       return jjimMapper.count(productNum);
+        return jjimMapper.count(productNum);
     }
 
     // 찜 전체 목록

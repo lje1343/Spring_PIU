@@ -531,7 +531,7 @@
                     $(".subImage").append(str);
                 }
             }else{
-                str += "<img src='/productFile/display?fileName=" + files[0].uploadPath + "/" + files[0].uuid + "_"  + files[0].fileName + "'>";
+                str += "<img src='/productFile/display?fileName=" + files[0].uploadPath + "/s_" + files[0].uuid + "_"  + files[0].fileName + "'>";
                 $(".mainImage").html(str);
             }
         })
@@ -649,7 +649,9 @@
     $(".ProductQnas").on("click",".qnaDelete",function (e) {
         e.preventDefault();
         if(confirm("정말 삭제하시겠습니까?")){
-            qnaService.qnaDelete($(this).attr("name"))
+            qnaService.qnaDelete($(this).attr("name"),function () {
+                showQnaList(pageNum);
+            })
         }else{
             return false;
         }

@@ -31,17 +31,14 @@ public class GroupController {
 
     // 그룹 메인
     @GetMapping("/main")
-    public void main(HttpSession session, Model model, Criteria criteria){
-        // 사용자 번호 이용
+    public void main(Long companyNum, Model model, Criteria criteria){
+//        Long userNum = Long.parseLong(session.getAttribute("num").toString());
 
-        int checkLogin= 3;
-        Long companyNum = Long.parseLong(session.getAttribute("num").toString());
+        // 사용자 번호 이용
+//        model.addAttribute("fileName", session.getAttribute("fileName"));
+//        model.addAttribute("uploadPath", session.getAttribute("uploadPath"));
         model.addAttribute("projectList", projectService.getUserProjectList(companyNum,criteria ));
         model.addAttribute("pageDTO", new PageDTO(criteria, projectService.getUserProjectTotal(companyNum)));
-
-        model.addAttribute("projectList", projectService.getUserProjectList(1L,criteria ));
-        model.addAttribute("pageDTO", new PageDTO(criteria, projectService.getUserProjectTotal(1L)));
-
 
     }
 
@@ -64,16 +61,15 @@ public class GroupController {
         log.info("================================");
         log.info("================================");
         model.addAttribute("adminBoard", tempAdminService.getReadDetail(num));
-
     }
 
     // 그룹 프로필 수정
     @GetMapping("/modify")
-    public void modify(HttpSession session,Model model, Long companyNum){
-        int checkLogin= 3;
-        companyNum = Long.parseLong(session.getAttribute("num").toString());
+    public void modify(Model model, Long companyNum){
         model.addAttribute("company", companyService.read(companyNum));
     }
+
+
 
     // 그룹 프로필 수정 폼
     @PostMapping("/modifyForm")
@@ -87,6 +83,7 @@ public class GroupController {
     public void qna(CompanyVO companyVO){
 
     }
+
 
 
 }

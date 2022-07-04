@@ -187,8 +187,11 @@
                         <div class="basicInfoBox">
                             <h3 class="basicInfoText">프로젝트 특징이 잘 드러난<br>제목과 이미지를 보여주세요</h3>
                             <div class="basicInfoSubText">감성적이면서도 프로젝트를 잘 표현하는 제목과 이미지를 등록해 주세요.</div>
-                            <div class="subImgFrame">
-                                <div class="subImgForm">
+                            <div class="subImgFrame" th:style="'background-image:url('/projectFile/display?fileName=?/'+ ${fileList[i].uploadPath} + @{/} + ${fileName}/');'">
+                            <!--                                <img th:src="@{/groupFile/display?fileName=} + ${company.profileUploadPath} + @{/} + ${company.profileFileName}" alt="" class="group">-->
+
+
+                            <div class="subImgForm">
                                     <label class="subImgLabel">썸네일 이미지</label>
                                     <div class="subImgContainer">
 
@@ -197,8 +200,7 @@
 
                                             <div class="photoImgFrame">
                                                 <div class="photoImgForm">
-                                                    <img src="/src/main/resources/static/images/add-photo-portrait.png"
-                                                            id="img0" style="max-width: 100%; height: auto;">
+
                                                     <p class="photoFieldDescription"></p>
                                                 </div>
                                             </div>
@@ -215,8 +217,7 @@
                                                 <div class="subImgExamForm">
                                                         <span class="subImgExamContainer">
                                                             <picture class="subImgExamItem">
-                                                                <img src="/src/main/resources/static/images/cover-04.jpg"
-                                                                      class="coverImg" style="max-width: 100%; height: auto;">
+
                                                             </picture>
                                                         </span>
                                                 </div>
@@ -227,8 +228,7 @@
                                                 <div class="subImgExamForm">
                                                         <span class="subImgExamContainer">
                                                             <picture class="subImgExamItem">
-                                                                <img src="/src/main/resources/static/images/cover-05.jpg"
-                                                                     class="coverImg" style="max-width: 100%; height: auto;">
+
                                                             </picture>
                                                         </span>
                                                 </div>
@@ -239,8 +239,7 @@
                                                 <div class="subImgExamForm">
                                                         <span class="subImgExamContainer">
                                                             <picture class="subImgExamItem">
-                                                                <img src="/src/main/resources/static/images/cover-06.jpg"
-                                                                     class="coverImg" >
+
                                                             </picture>
                                                         </span>
                                                 </div>
@@ -486,7 +485,109 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8460d42f853294e33918a26eaad645a2&libraries=services"></script>
 
-<script>
+<script th:inline="javascript">
+
+    console.log($('.formCourseSelect').val());
+    //첨부파일 input태그 가져오기
+    const file0 = document.querySelector("input#attach");
+    const file1 = document.querySelector("input#attach1");
+    const file2 = document.querySelector("input#attach2");
+    const file3 = document.querySelector("input#attach3");
+    const thumbnail0 = document.querySelector(".photoImgFrame");
+    const thumbnail1 = document.querySelector(".introImgBox1");
+    const thumbnail2 = document.querySelector(".introImgBox2");
+    const thumbnail3 = document.querySelector(".introImgBox3");
+
+
+
+
+    file0.addEventListener("change", function(event){
+        //특정 경로의 파일을 읽어올 때 사용.
+        let reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        reader.onload = function(event){
+            //등록된 파일의 경로에 작성된 파일의 타입검사
+            if(event.target.result.includes("image")){
+                console.log("이미지 파일입니다.");
+                //등록된 파일의 경로로 대체
+                thumbnail0.style.backgroundImage = "url(\"" + event.target.result + "\")";
+
+            }else{
+                alert("이미지 파일이 아닙니다.");
+                //미리 준비해놓은 이미지 경로로 대체
+                $(thumbnail0).text("");
+                thumbnail0.style.backgroundImage = "url(/images/error.png)";
+            }
+        }
+    });
+
+    file1.addEventListener("change", function(event){
+        //특정 경로의 파일을 읽어올 때 사용.
+        let reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        reader.onload = function(event){
+            //등록된 파일의 경로에 작성된 파일의 타입검사
+            if(event.target.result.includes("image")){
+                console.log("이미지 파일입니다.");
+                $(thumbnail0).text("");
+
+                //등록된 파일의 경로로 대체
+                thumbnail1.style.backgroundImage = "url(\"" + event.target.result + "\")";
+                thumbnail1.style.backgroundSize = "cover";
+                thumbnail1.style.backgroundRepeat = "no-repeat";
+            }else{
+                alert("이미지 파일이 아닙니다.");
+                //미리 준비해놓은 이미지 경로로 대체
+                $(thumbnail0).text("");
+                thumbnail1.style.backgroundImage = "url(/images/error.png)";
+            }
+        }
+    });
+
+    file2.addEventListener("change", function(event){
+        //특정 경로의 파일을 읽어올 때 사용.
+        let reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        reader.onload = function(event){
+            //등록된 파일의 경로에 작성된 파일의 타입검사
+            if(event.target.result.includes("image")){
+                console.log("이미지 파일입니다.");
+                //등록된 파일의 경로로 대체
+                thumbnail2.style.backgroundImage = "url(\"" + event.target.result + "\")";
+                thumbnail2.style.backgroundSize = "cover";
+                thumbnail2.style.backgroundRepeat = "no-repeat";
+
+
+            }else{
+                alert("이미지 파일이 아닙니다.");
+                //미리 준비해놓은 이미지 경로로 대체
+                $(thumbnail0).text("");
+                thumbnail2.style.backgroundImage = "url(/images/error.png)";
+            }
+        }
+    });
+
+    file3.addEventListener("change", function(event){
+        //특정 경로의 파일을 읽어올 때 사용.
+        let reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        reader.onload = function(event){
+            //등록된 파일의 경로에 작성된 파일의 타입검사
+            if(event.target.result.includes("image")){
+                console.log("이미지 파일입니다.");
+                //등록된 파일의 경로로 대체
+                thumbnail3.style.backgroundImage = "url(\"" + event.target.result + "\")";
+                thumbnail3.style.backgroundSize = "cover";
+                thumbnail3.style.backgroundRepeat = "no-repeat";
+            }else{
+                alert("이미지 파일이 아닙니다.");
+                //미리 준비해놓은 이미지 경로로 대체
+                thumbnail3.style.backgroundImage = "url(/images/error.png)";
+            }
+        }
+    });
+
+
     let step = "1";
     $('.prevPage').on("click", function () {
         step--;
@@ -550,7 +651,7 @@
     })
 
 
-        let endAddress = document.querySelector(".addressBoxEnd");
+    let endAddress = document.querySelector(".addressBoxEnd");
     function changeValue() {
         let selectCourse = document.getElementById("selectCourse");
         selectCourse = selectCourse.options[selectCourse.selectedIndex].value;
@@ -696,6 +797,9 @@
                 }
                 if ((출발.length + 도착.length) == 4) {
                     // 지도 생성 시킬것
+
+                    $('#map').remove();
+                    $('#mapBox').append("<div id=\"map\" style=\"width:500px;height:500px;\"></div>");
                     getMap($('#y1').val(), $('#x1').val(), $('#y2').val(), $('#x2').val());
                     dist();
                 }
@@ -793,8 +897,10 @@
 
 
 
+
     // 사진 등록
-    $("input[type='file']").on("change", function (e) {
+    $('.test').on("click", function () {
+        console.log('hello');
         let formData =   new FormData();
         let inputFile = $("input[name='uploadFiles']");
         for(let i=0; i<inputFile.length; i++){
@@ -802,7 +908,7 @@
                 formData.append("uploadFiles", inputFile[i].files[0]);
                 console.log(inputFile[i].files[0]);
             }
-        };
+        }
         $.ajax({
             url: "/projectFile/upload",
             type: "post",
@@ -810,20 +916,19 @@
             contentType: false,
             processData: false,
             success: function (files) {
-                str = "";
+                let str = "";
                 $(files).each(function (i, file) {
                     console.log(file);
-                    str += "<input type='hidden' name='fileList[" + i + "].fileName' value='" + file.fileName + "'>"
-                    str += "<input type='hidden' name='fileList[" + i + "].uuid' value='" + file.uuid + "'>"
-                    str += "<input type='hidden' name='fileList[" + i + "].uploadPath' value='" + file.uploadPath + "'>"
+                    str += "<input name='fileList[" + i + "].fileName' value='" + file.fileName + "'>"
+                    str += "<input name='fileList[" + i + "].uuid' value='" + file.uuid + "'>"
+                    str += "<input name='fileList[" + i + "].uploadPath' value='" + file.uploadPath + "'>"
 
-                    $('.photoAddText').css("display", "none");
-                    console.log( $('#img' + i));
-                    $('#img' + i).attr("src", "/projectFile/display?fileName=" + file.uploadPath + "/" + file.uuid + "_" + file.fileName);
                 });
                 $('.imgInsertForm').append(str);
+                $('#projectForm').submit();
 
             }
+
         });
     });
 
@@ -854,7 +959,6 @@
     });
 
 
-    $('input')
 </script>
 
 </html>

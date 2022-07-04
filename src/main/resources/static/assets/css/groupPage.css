@@ -589,7 +589,7 @@ body {
     border-bottom: 1px solid rgb(239, 239, 239);
     font-size: 13px;
     line-height: 18;
-    color: rgb(26, 26, 26);
+    color: white;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -993,7 +993,7 @@ body {
 
 .showListBody9 {
     overflow: hidden;
-    flex: 0 1 255px;
+    flex: 0 1 200px;
     text-overflow: ellipsis;
     white-space: nowrap;
     margin-right: 10px;
@@ -1514,7 +1514,7 @@ body {
 }
 
 #checkBoxBtn {
-    color: silver;
+
     font-size: 22px;
 }
 
@@ -1901,7 +1901,7 @@ option:disabled {
 
 .showListHeader apply{
     justify-content: space-between;
-
+    color:white;
 }
 
 

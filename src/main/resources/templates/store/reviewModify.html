@@ -216,13 +216,14 @@
         reviewService.reviewFileUpload(formData,function (files) {
             let str = "";
             $.each(files, function(i, file){
-                str += "<input type='hidden' name='fileList[" + i + "].fileName' value='" + file.fileName + "'>"
-                str += "<input type='hidden' name='fileList[" + i + "].uuid' value='" + file.uuid + "'>"
-                str += "<input type='hidden' name='fileList[" + i + "].uploadPath' value='" + file.uploadPath + "'>"
+                str += "<input type='hidden' name='fileList[" + i + "].fileName' value='" + file.fileName + "'>";
+                str += "<input type='hidden' name='fileList[" + i + "].uuid' value='" + file.uuid + "'>";
+                str += "<input type='hidden' name='fileList[" + i + "].uploadPath' value='" + file.uploadPath + "'>";
             });
             $('#registerForm').append(str);
-        })
+        });
         registerForm.submit();
     });
+
 </script>
 </html>
