@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,29 +37,40 @@ public class ProjectController {
     private final CompanyService companyService;
     private final TempUserSerivce tempUserSerivce;
 
+
+
     // 프로젝트 상세보기
     @GetMapping("/projectDetail")
     public String projectDetail(Long num, Model model) throws ParseException {
+//        int checkLogin=3;
+//        Long userNum = Long.parseLong(session.getAttribute("num").toString());
+//        model.addAttribute("fileName",session.getAttribute("fileName"));
+//        model.addAttribute("uploadPath",session.getAttribute("uploadPath"));
+//        model.addAttribute("checkLogin",checkLogin);
+//        model.addAttribute("userNum", userNum);
 
         ProjectVO projectVO = projectService.read(num);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date projectDate = sdf.parse(projectVO.getProjectDate());
+        Date projectDate = sdf.parse(projectVO.getStartTime());
         SimpleDateFormat addSdf = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 HH:mm");
-
-        projectVO.setProjectDate(addSdf.format(projectDate));
+        projectVO.setStartTime(addSdf.format(projectDate));
 
         model.addAttribute("company", companyService.readCompanyInfo(projectVO.getCompanyNum()));
         model.addAttribute("project", projectVO);
-//        model.addAttribute("qna", projectService.getQnAList(num));
+        model.addAttribute("qna", projectService.getQnAList(num));
         model.addAttribute("img", projectService.getProjectFileList(num));
         return "/project/projectDetail";
     }
 
     // 프로젝트 문의 작성
     @GetMapping("/qnaWrite")
-    public void qnaWrite(HttpSession session, Long num, Model model){
-        int checkLogin=3;
-        Long userNum = Long.parseLong(session.getAttribute("num").toString());
+    public void qnaWrite( Long num, Model model){
+//        int checkLogin=3;
+//        Long userNum = Long.parseLong(session.getAttribute("num").toString());
+//        model.addAttribute("fileName",session.getAttribute("fileName"));
+//        model.addAttribute("uploadPath",session.getAttribute("uploadPath"));
+//        model.addAttribute("checkLogin",checkLogin);
+//        model.addAttribute("userNum", userNum);
 
         // projectNum, title -> model 사용
         // userNum -> 쿠키 및 세션 사용
@@ -68,38 +80,39 @@ public class ProjectController {
 
     // 프로젝트 문의 작성폼
     @PostMapping("/qnaWriteForm")
-    public String qnaWriteForm(HttpSession session, ProjectQnaVO projectQnaVO, AdminQnaDTO adminQnaDTO, Model model) throws ParseException {
+    public String qnaWriteForm(HttpSession session,ProjectQnaVO projectQnaVO, Model model) throws ParseException {
+
         // 임시
         int checkLogin=3;
         Long userNum = Long.parseLong(session.getAttribute("num").toString());
+        model.addAttribute("fileName",session.getAttribute("fileName"));
+        model.addAttribute("uploadPath",session.getAttribute("uploadPath"));
+        model.addAttribute("checkLogin",checkLogin);
+        model.addAttribute("userNum", userNum);
+// 임시
         projectQnaVO.setUserNum(userNum);
         projectService.registerQnA(projectQnaVO);
-        tempAdminService.qnaProjectSave(adminQnaDTO);
-        return projectDetail(11L, model);
-
-        // 임시
-
-
+        return projectDetail(41L, model);
 
     }
 
     // 프로젝트 등록 스텝 1
     @GetMapping("/createStep")
-    public void createStep1(){
-
+    public void createStep1(Model model){
+        model.addAttribute("companyNum", 10L);
     }
 
     // 프로젝트 등록 스텝 1
     @PostMapping("/createStepForm")
-    public String projectCreate(HttpSession session, ProjectVO projectVO){
-        Long companyNum = Long.parseLong(session.getAttribute("num").toString());
+    public String projectCreate(ProjectVO projectVO){
+//        Long companyNum = Long.parseLong(session.getAttribute("num").toString());
         String startDate = projectVO.getStartTime().substring(0,10)+" "+projectVO.getStartTime().substring(11,16)+":00";
         String endDate = projectVO.getEndTime().substring(0,10)+" "+projectVO.getEndTime().substring(11,16)+":00";
         projectVO.setStartTime(startDate);
         projectVO.setEndTime(endDate);
-        projectVO.setCompanyNum(companyNum);
+        projectVO.setCompanyNum(10L);
         projectService.registerProject(projectVO);
-        return "/group/main";
+        return "/project/createStep";
 
     }
 
@@ -118,11 +131,11 @@ public class ProjectController {
         return "/group/main";
     }
 
-    // 프로젝트 삭제
-    @DeleteMapping("/remove/{num}")
+    // 프로젝트 찜 추가
+    @PostMapping("/jjim")
     @ResponseBody
-    public void removeProject(Long num){
-        projectService.remove(num);
+    public void addJjim(@RequestBody JjimVO jjimVO){
+        projectService.addJjim(jjimVO);
     }
 
     // 프로젝트 찜 해제
@@ -132,10 +145,23 @@ public class ProjectController {
         projectService.removeJjim(jjimVO);
     }
 
+    // 프로젝트 찜 개수
+    @GetMapping("/jjim/{projectNum}")
+    @ResponseBody
+    public int countJjim(@PathVariable ("projectNum") Long projectNum){
+        int count = projectService.jjimCount(projectNum);
+        return count;
+    }
+
     // 프로젝트 지원
     @PostMapping("/apply")
     @ResponseBody
-    public void applyProject(@RequestBody ApplyVO applyVO){
+    public void applyProject(@RequestBody ApplyVO applyVO,HttpSession session, Model model){
+        Long userNum = Long.parseLong(session.getAttribute("num").toString());
+        // 임시
+
+        model.addAttribute("userNum", userNum);
+        applyVO.setUserNum(userNum);
         applyService.apply(applyVO);
     }
 
@@ -170,27 +196,29 @@ public class ProjectController {
 
     // 후기 작성
     // 세션에서 작성자 정보 확인
-    @GetMapping("/review/add/{projectNum}/{userNum}")
-    public String addReview(Long projectNum, Long userNum, Model model){
+    @GetMapping("/review/add/{projectNum}")
+    public String addReview(Long projectNum, Model model, HttpSession session){
+        Long userNum = Long.parseLong(session.getAttribute("num").toString());
         model.addAttribute("user",tempUserSerivce.readUserInfo(userNum));
         model.addAttribute("projectNum", projectNum);
         return "/project/projectReviewWrite";
-
     }
 
     // 후기 작성폼
     @PostMapping("/review/add")
-    public String addReviewForm(ProjectReviewVO projectReviewVO, Model model){
-        projectReviewVO.setUserNum(41L);
-        projectReviewVO.setProjectNum(41L);
+    public String addReviewForm(ProjectReviewVO projectReviewVO, Model model,HttpSession session){
+        Long userNum = Long.parseLong(session.getAttribute("num").toString());
+        projectReviewVO.setUserNum(userNum);
+        projectReviewVO.setProjectNum(userNum);
         projectService.registerReview(projectReviewVO);
 
-        return reivewList(41L, model);
+        return reivewList(userNum, model,session);
     }
 
     // 후기 목록
     @GetMapping("/review/list")
-    public String reivewList(Long projectNum, Model model){
+    public String reivewList(Long projectNum, Model model,HttpSession session){
+        Long userNum = Long.parseLong(session.getAttribute("num").toString());
         model.addAttribute("reviews", projectService.getProjectReviewList(41L));
         return "project/projectReviewAll";
     }
@@ -206,11 +234,12 @@ public class ProjectController {
 
     // 후기 수정폼
     @PostMapping("/review/modify")
-    public String modifyReviewForm(ProjectReviewVO projectReviewVO, Model model){
-        projectReviewVO.setUserNum(41L);
-        projectReviewVO.setProjectNum(41L);
+    public String modifyReviewForm(ProjectReviewVO projectReviewVO, Model model,HttpSession session){
+        Long userNum = Long.parseLong(session.getAttribute("num").toString());
+        projectReviewVO.setUserNum(userNum);
+        projectReviewVO.setProjectNum(userNum);
         projectService.modifyReview(projectReviewVO);
-        return addReview(41L, 41L, model);
+        return addReview(41L, model,session);
     }
 
     // 후기 삭제 

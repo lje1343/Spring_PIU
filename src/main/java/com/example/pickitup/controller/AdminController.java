@@ -378,7 +378,7 @@ public class AdminController {
 
         log.info("==========="+startDate);
         log.info("==========="+endDate);
-        projectVO.setCompanyNum(11l); // 관리자 companyNum설정
+        projectVO.setCompanyNum(21L); // 관리자 companyNum설정
         projectService.registerProject(projectVO);
     }
 

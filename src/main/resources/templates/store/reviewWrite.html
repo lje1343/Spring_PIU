@@ -99,6 +99,8 @@
 <script th:inline="javascript">
     let productNum = [[${product.num}]];
     //현재 받은 세션으로 userNum 값 구하기
+
+
     let userNum = [[${userNum}]];  // 임시 데이터
     $.ajax({
         url: "/store/userInfo?userNum=" + userNum,

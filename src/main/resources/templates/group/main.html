@@ -17,16 +17,16 @@
                     <header class="groupPageHeaderFrame">
                         <div class="groupPageHeaderForm">
                             <div class="groupPageHeaderBox">
-                                <span class="material-symbols-outlined">directions_walk</span>
-                                <a href="#" class="groupPageHeader">Plogger Center</a>
+<!--                                <span class="material-symbols-outlined">directions_walk</span>-->
+                                <input type="checkbox" value="check">
+                                <a href="#" class="groupPageHeader">Pslogger Center</a>
                                 <div class="htBoundary"></div>
                                 <div class="groupPageProfileFrame">
                                     <div class="groupPageProfileBox">
                                         <div class="groupPageProfileForm">
                                             <div class="groupPageProfileContainer">
                                                 <picture class="groupPageProfile">
-                                                    <source srcset="/static/images/chun2.png" media="all and (min-width: 1024px)" >
-                                                    <img src="/static/images/chun2.png" class="profileImage" alt="">
+                                                    <img th:src="@{/userFile/display?fileName=} + *{uploadPath} +@{/} + *{fileName}">
                                                 </picture>
                                             </div>
                                         </div>
@@ -190,8 +190,8 @@
                                                                 <div class="showListBody4" >
                                                                     <div class="sbStateFrame">
                                                                         <div class="sbStateForm">
-                                                                            <p class="sbState" id="agreeState" th:if="${project.approval.equals('0')}" th:text="|승인대기|"></p>
-                                                                            <p class="sbState" id="agreeState" th:if="${project.approval.equals('1')}" th:text="|승인완료|"></p>
+                                                                            <p class="sbState" id="agreeState" th:if="${project.approval.equals('5')}" th:text="|승인대기|"></p>
+                                                                            <p class="sbState" id="agreeState" th:if="${project.approval.equals('0')}" th:text="|승인완료|"></p>
                                                                             <p class="sbState" id="agreeState" th:if="${project.approval.equals('2')}" th:text="|승인거절|"></p>
                                                                         </div>
                                                                     </div>
@@ -402,9 +402,9 @@
     <div class="modal-content">
         <div style="margin-left: 50px; display: flex;">
             <p class="close">&times;</p>
-            <p id="startP"> 출발QR</p>
+            <p id="startP" style="margin-top: 80px;"> 출발QR</p>
             <!--            <div class="qrImg" id="qrcode"></div>-->
-            <p id="endP"> 도착QR</p>
+            <p id="endP" style="margin-top: 80px;"> 도착QR</p>
             <!--            <div class="qrImg" id="qrcode2"></div>-->
         </div>
     </div>

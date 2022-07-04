@@ -38,7 +38,7 @@ public class ProjectFileRestController {
     @PostMapping("/upload")
     @ResponseBody
     public List<ProjectFileVO> upload(MultipartFile[] uploadFiles) throws IOException {
-        String uploadFolder = "C:/upload";
+        String uploadFolder = "/Users/minmin/aigb_0900_sms/upload/";
         ArrayList<ProjectFileVO> files = new ArrayList<>();
 
 //        yyyy/MM/dd 경로 만들기
@@ -56,19 +56,8 @@ public class ProjectFileRestController {
 
             uploadFileName = uuid.toString() + "_" + uploadFileName;
 
-            log.info("--------------------------------");
-            log.info("Upload File Name : " + uploadFileName);
-            log.info("Upload File Size : " + file.getSize());
-
             File saveFile = new File(uploadPath, uploadFileName);
             file.transferTo(saveFile);
-
-//            if(checkImageType(saveFile)){
-//                FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
-//                Thumbnailator.createThumbnail(file.getInputStream(), thumbnail, 100, 100);
-//                thumbnail.close();
-//                fileVO.setImage(true);
-//            }
             files.add(projectFileVO);
         }
 
@@ -119,7 +108,7 @@ public class ProjectFileRestController {
     @GetMapping("/display")
     @ResponseBody
     public byte[] getFile(String fileName) throws IOException{
-        File file = new File("C:/upload/", fileName);
+        File file = new File("/Users/minmin/aigb_0900_sms/upload/", fileName);
         return FileCopyUtils.copyToByteArray(file);
     }
 
