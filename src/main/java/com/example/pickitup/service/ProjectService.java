@@ -172,15 +172,17 @@ public class ProjectService {
     }
 
     // 찜 추가
+    @Transactional(rollbackFor = Exception.class)
     public void addJjim(JjimVO jjimVO){
         jjimDAO.myProjectJjimInsert(jjimVO);
-//        projectDAO.jjimPlus(jjimVO.getProjectNum());
+        projectDAO.jjimPlus(jjimVO.getProjectNum());
     }
 
     // 찜 해제
+    @Transactional(rollbackFor = Exception.class)
     public void removeJjim(JjimVO jjimVO){
         jjimDAO.myProjectJjimDelete( jjimVO);
-//        projectDAO.jjimMinus(jjimVO.getProjectNum());
+        projectDAO.jjimMinus(jjimVO.getProjectNum());
     }
 
     // 프로젝트 지원

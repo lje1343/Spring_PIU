@@ -28,16 +28,19 @@ public class MainController {
     public String main(HttpSession session, Model model,HttpServletRequest request) throws ParseException {
        int checkLogin=0;
         System.out.println("=============="+request.getRequestURI().split("/")[1]);
-        Long userNum = (Long)(session.getAttribute("num"));
-        if(session.getAttribute("token")!=null){
+
+        if(session.getAttribute("token")!=null){  //카카오로 로그인하고 들어왔을때
             checkLogin = 2;
+            Long userNum = Long.parseLong(session.getAttribute("num").toString());
             model.addAttribute("userNum",userNum);
-        }else if(session.getAttribute("num")!=null&&session.getAttribute("nickname")!=null){
+        }else if(session.getAttribute("num")!=null&&session.getAttribute("nickname")!=null){ //일반로그인 하고 들어왔을때
             checkLogin= 3;
+            Long userNum = Long.parseLong(session.getAttribute("num").toString());
             model.addAttribute("userNum",userNum);
-        }else{
+        }else{  //일반 로그인 안하고 들어왔을떄
            checkLogin= 1;
-            model.addAttribute("userNum",userNum);
+//            Long userNum = Long.parseLong(session.getAttribute("num").toString());
+//            model.addAttribute("userNum",userNum);
        }
         model.addAttribute("fileName",session.getAttribute("fileName"));
         model.addAttribute("uploadPath",session.getAttribute("uploadPath"));

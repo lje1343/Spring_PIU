@@ -41,9 +41,10 @@ public class ProjectController {
 
     // 프로젝트 상세보기
     @GetMapping("/projectDetail")
-    public String projectDetail(Long num, Model model) throws ParseException {
-//        int checkLogin=3;
-//        Long userNum = Long.parseLong(session.getAttribute("num").toString());
+    public String projectDetail(HttpSession session, Long num, Model model) throws ParseException {
+        int checkLogin=3;
+        Long userNum = Long.parseLong(session.getAttribute("num").toString());
+        model.addAttribute("userNum",userNum);
 //        model.addAttribute("fileName",session.getAttribute("fileName"));
 //        model.addAttribute("uploadPath",session.getAttribute("uploadPath"));
 //        model.addAttribute("checkLogin",checkLogin);
@@ -92,7 +93,7 @@ public class ProjectController {
 // 임시
         projectQnaVO.setUserNum(userNum);
         projectService.registerQnA(projectQnaVO);
-        return projectDetail(41L, model);
+        return projectDetail(session,41L, model);
 
     }
 
@@ -136,8 +137,6 @@ public class ProjectController {
     @ResponseBody
     public void addJjim(@RequestBody JjimVO jjimVO){
         projectService.addJjim(jjimVO);
-        projectService.jjimPlus(jjimVO.getProjectNum());
-
     }
 
     // 프로젝트 찜 해제
@@ -145,7 +144,6 @@ public class ProjectController {
     @ResponseBody
     public void removeJjim(@RequestBody JjimVO jjimVO){
         projectService.removeJjim(jjimVO);
-        projectService.jjimMinus(jjimVO.getProjectNum());
     }
 
     // 프로젝트 찜 개수

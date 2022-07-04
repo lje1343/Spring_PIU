@@ -273,8 +273,8 @@
     // 프로젝트 번호
     let projectNum = [[${project.num}]];
     // 유저 번호(접속)
-    // let userNum = [[${userNum}]];
-    let userNum = 44;
+    let userNum = [[${userNum}]];
+    alert(userNum)
 
 
     let start = [[${project.startAddress}]];
@@ -396,15 +396,8 @@
                     console.log('찜 추가');
                     $('.pLikeImage').html("<span class=\"material-icons\">favorite</span>");
 
-                    // 찜 개수
-                    $.ajax({
-                        url: "/project/jjim/" + projectNum,
-                        type: "get",
-                        success: function(count){
-                            $('.pLikeCount').html(count);
-
-                        }
-                    });
+                    //찜 갯수
+                    jjimCount();
                 }
             });
             jjimCheck++;
@@ -419,15 +412,9 @@
                 success: function(){
                     console.log('찜 삭제');
                     $('.pLikeImage').html("<span class=\"material-symbols-outlined\" id=\"heart\">favorite</span>\n");
-                    // 찜 개수
-                    $.ajax({
-                        url: "/project/jjim/" + projectNum,
-                        type: "get",
-                        success: function(count){
-                            $('.pLikeCount').html(count);
 
-                        }
-                    });
+                    //찜 갯수
+                    jjimCount();
                 }
             });
             jjimCheck--;
@@ -436,16 +423,19 @@
 
     });
 
-
+    jjimCount();
     // 찜 개수
-    $.ajax({
-        url: "/project/jjim/" + projectNum,
-        type: "get",
-        success: function(count){
-            $('.pLikeCount').html(count);
+    function jjimCount(){
+        $.ajax({
+            url: "/project/jjim/" + projectNum,
+            type: "get",
+            success: function(count){
+                $('.pLikeCount').html(count);
 
-        }
-    });
+            }
+        });
+
+    }
 
 
 

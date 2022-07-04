@@ -62,12 +62,12 @@
     <update id="jjimPlus">
     update TBL_PROJECT
     set JJIM_COUNT = JJIM_COUNT+1
-    WHERE NUM = #{num}
+    WHERE NUM = #{projectNum}
     </update>
     <update id="jjimMinus">
     update TBL_PROJECT
     set JJIM_COUNT = JJIM_COUNT-1
-    WHERE NUM = #{num}
+    WHERE NUM = #{projectNum}
     </update>
 
 
