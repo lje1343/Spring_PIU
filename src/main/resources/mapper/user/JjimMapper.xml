@@ -51,8 +51,8 @@
     </insert>
 
     <select id="myProjectJjimCount" resultType="_int">
-        SELECT COUNT(NUM) FROM TBL_JJIM
-        WHERE PROJECT_NUM =#{projectNum}
+        SELECT JJIM_COUNT FROM TBL_PROJECT
+        WHERE NUM = #{projectNum}
     </select>
 
     <delete id="myProjectJjimDelete">
