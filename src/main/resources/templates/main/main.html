@@ -191,7 +191,7 @@
                                                                   d="M1.5 8.824C1.5 5.607 3.962 3 7 3c2.5 0 4 1.5 5 3 1-1.5 2.5-3 5-3 3.038 0 5.5 2.607 5.5 5.824C22.5 14.827 16.684 18.52 12 21 7.316 18.52 1.5 14.827 1.5 8.824z"
                                                                   fill="#d7d7d7"></path>
                                                         </svg>
-                                                        <div style="margin-top: 1px;margin-left: 2px;"
+                                                        <div class="jjimCountCheck" style="margin-top: 1px;margin-left: 2px;"
                                                              th:text="*{jjimCount}"></div>
                                                     </div>
 
@@ -411,9 +411,11 @@
                 $.ajax({
                     url : "/project/jjim",
                     type : "post",
-                    data : data,
+                    data : JSON.stringify(data),
+                    contentType: "application/json;charset=UTF-8",
                     success : function () {
-                        alert('찜 성공')
+                        jjimCheck();
+                        jjimCount()
                     }
                 })
 
@@ -425,14 +427,48 @@
                 $.ajax({
                     url : "/project/jjim",
                     type : "delete",
-                    data : data,
+                    data : JSON.stringify(data),
+                    contentType: "application/json;charset=UTF-8",
                     success : function () {
-                        alert('찜 해제 성공')
+                        jjimCheck();
+                        jjimCount()
                     }
                 })
             }
         }
     });
+
+    // 찜 개수
+    function jjimCount(){
+        $.ajax({
+            url: "/project/jjim/" + projectNum,
+            type: "get",
+            success: function(count){
+                alert(count)
+                $('.jjimCountCheck').html(count);
+            }
+        });
+
+    }
+    jjimCheck();
+    function jjimCheck() {
+        $.ajax({
+            url : "/store/jjim",
+            type : "get",
+            success : function (jjims) {
+                $(jjims).each(function (i, jjim) {
+                    if(jjim.userNum==userNum){
+                        if($(".projectjjim[name="+jjim.projectNum+"]").hasClass("material-symbols-outlined")){
+                            $(".projectjjim[name="+jjim.projectNum+"]").removeClass("material-symbols-outlined");
+                            $(".projectjjim[name="+jjim.projectNum+"]").addClass("material-icons");
+                            $(".projectjjim[name="+jjim.projectNum+"]").css("color","red")
+                        }
+                    }
+                })
+
+            }
+        });
+    }
 
 
 </script>
