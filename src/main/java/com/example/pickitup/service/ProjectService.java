@@ -12,6 +12,7 @@ import com.example.pickitup.domain.vo.Criteria;
 import com.example.pickitup.domain.vo.ProjectCriteria;
 import com.example.pickitup.domain.vo.dto.ProjectDTO;
 import com.example.pickitup.domain.vo.dto.ProjectMainDTO;
+import com.example.pickitup.domain.vo.dto.ReviewDTO;
 import com.example.pickitup.domain.vo.project.projectFile.ProjectFileVO;
 import com.example.pickitup.domain.vo.project.projectFile.ProjectVO;
 import com.example.pickitup.domain.vo.project.projectQna.ProjectQnaCommentVO;
@@ -51,16 +52,39 @@ public class ProjectService {
     }
 
 
+    // 프로젝트 목록(찜순)
+    public List<ProjectMainDTO> getListTotalSearch() throws ParseException {
+        List<ProjectMainDTO> projectMainDTOS = new ArrayList<>();
+        List<ProjectVO> projectVOS = projectDAO.getList();
 
+        for(ProjectVO pp : projectVOS){
+            String strDate = pp.getStartTime();  // 기준 날짜 데이터 (("yyyy-MM-dd")의 형태)
+            String todayFm = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis())); // 오늘날짜
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date date = new Date(dateFormat.parse(strDate).getTime());
+            Date today = new Date(dateFormat.parse(todayFm).getTime());
+
+            long calculate = date.getTime() - today.getTime();
+
+            int Ddays = (int) (calculate / ( 24*60*60*1000));
+
+            String Ddate ="";
+            if(Ddays==0){
+                Ddate = "오늘이에요!";
+            }else {
+                Ddate = "D" + Integer.toString(Ddays * (-1));
+            }
+            projectMainDTOS.add(new ProjectMainDTO(pp.getNum(),pp.getTitle(),pp.getTerrain(),pp.getPoint(),pp.getJjimCount(),Ddate,pp.getApplyCount()));
+        }
+        return projectMainDTOS;
+    }
+
+    // QR생성 (관리자용)
     public boolean insertQr(Long qrNum, String projectLink1,String projectLink2 ){
         return projectDAO.insertQr(qrNum,projectLink1,projectLink2);
     }
-
-    // 프로젝트 목록(특정 단체 유저)
-//    public List<ProjectVO> getProjectList(Long companyNum, ProjectCriteria projectCriteria){
-//        return projectDAO.getUserProjectList(companyNum, projectCriteria);
-//    }
-
 
     // 관리자용 프로젝트 전체 목록
     public List<ProjectDTO> getProjectList(ProjectCriteria projectCriteria){
@@ -71,36 +95,51 @@ public class ProjectService {
         return projectDAO.getListToday(startDate,endDate);
     }
 
-    // 프로젝트 상세보기
-    public ProjectVO read(Long num){
-        return projectDAO.read(num);
-    }
-
     public int getProjectTotal(ProjectCriteria projectCriteria){
         return projectDAO.getProjectTotal(projectCriteria);
     }
 
+
+    // 프로젝트 목록(특정 단체 유저)
+    public List<ProjectVO> getUserProjectList(Long companyNum, Criteria criteria){
+        return projectDAO.getUserProjectList(companyNum, criteria);
+    }
+
+
+    // 모집자가 만든 프로젝트 개수
+    public int getUserProjectTotal(Long companyNum){
+        return projectDAO.getUserProjectTotal(companyNum);
+    }
+
+    // 프로젝트 상세보기
+    public ProjectVO read(Long num){
+        return projectDAO.read(num);
+    }
 
     // 프로젝트 등록
 
     public List<ProjectFileVO> getList1(Long num) {
         return projectFileDAO.findByProjectNum(num);
     }
-//    하나의 트랜잭션에 여러 개의 DML이 있을 경우 한 개라도 오류 시 전체 ROLLBACK
 
+    // 하나의 트랜잭션에 여러 개의 DML이 있을 경우 한 개라도 오류 시 전체 ROLLBACK
     @Transactional(rollbackFor = Exception.class)
-    public void register(ProjectVO projectVO) {
+    public void registerProject (ProjectVO projectVO) {
         //게시글 추가
+        log.info("fileList" + projectVO.getFileList());
         projectDAO.register(projectVO);
-        log.info("============"+projectVO.getNum());
+        log.info("진입성공1=======");
         //게시글에 업로드된 첨부파일 정보 중 게시글 번호를 따로 추가
         if(projectVO.getFileList() != null) {
-            projectVO.getFileList().forEach(projectfileVO -> {
-                projectfileVO.setProjectNum(projectVO.getNum()+1l);
-                projectFileDAO.register(projectfileVO);
+            log.info("진입성공==============");
+            projectVO.getFileList().forEach(projectFileVO -> {
+                log.info("프로젝트 번호 : " + projectVO.getNum());
+                projectFileVO.setProjectNum(projectVO.getNum() + 1l);
+                projectFileDAO.register(projectFileVO);
             });
         }
     }
+
 
     // 프로젝트 수정
     public boolean update(ProjectVO projectVO){
@@ -110,6 +149,11 @@ public class ProjectService {
     // 프로젝트 삭제
     public boolean remove(Long num){
         return projectDAO.remove(num);
+    }
+
+    // 프로젝트 사진 가져오기
+    public List<ProjectFileVO>getProjectFileList(Long num){
+        return projectFileDAO.findByProjectNum(num);
     }
 
     // QnA 등록
@@ -122,24 +166,23 @@ public class ProjectService {
         return projectQnaDAO.getList(projectNum);
     }
 
-//    // QnA 댓글 등록
-//    public ProjectQnaCommentVO getComment (Long qnaNum){
-//        return projectQnaCommentDAO.getComment(qnaNum);
-//    }
-
     // QnA 댓글 목록
     public List<ProjectQnaCommentVO> getCommentList(Long qnaNum){
         return projectQnaCommentDAO.getComment(qnaNum);
     }
 
     // 찜 추가
+    @Transactional(rollbackFor = Exception.class)
     public void addJjim(JjimVO jjimVO){
-        jjimDAO.register(jjimVO);
+        jjimDAO.myProjectJjimInsert(jjimVO);
+        projectDAO.jjimPlus(jjimVO.getProjectNum());
     }
 
     // 찜 해제
+    @Transactional(rollbackFor = Exception.class)
     public void removeJjim(JjimVO jjimVO){
-        jjimDAO.remove(jjimVO);
+        jjimDAO.myProjectJjimDelete( jjimVO);
+        projectDAO.jjimMinus(jjimVO.getProjectNum());
     }
 
     // 프로젝트 지원
@@ -147,35 +190,7 @@ public class ProjectService {
         applyDAO.register(applyVO);
     }
 
-    // 프로젝트 참가자 상태 변경
-
-
-//
-//    // 리뷰 등록
-//    @Transactional(rollbackFor = Exception.class)
-//    public void registerReview(ProjectReivewVO projectReivewVO) {
-//        //게시글 추가
-//        boardDAO.register(boardVO);
-//        //게시글에 업로드된 첨부파일 정보 중 게시글 번호를 따로 추가
-//        if(boardVO.getFileList() != null) {
-//            boardVO.getFileList().forEach(fileVO -> {
-//                fileVO.setBoardBno(boardVO.getBoardBno());
-//                fileDAO.register(fileVO);
-//            });
-//        }
-//    }
-
-
-    public int getUserProjectTotal(Long companyNum){
-        return projectDAO.getUserProjectTotal(companyNum);
-    }
-
-    @Transactional
-    public boolean setApproval(Long projectNum, Long applyNum){
-        applyDAO.setApproachToContinue(applyNum);
-        return projectDAO.setApprovaltoContinue(projectNum);
-    }
-    // 파일
+    // 리뷰 등록
     @Transactional(rollbackFor = Exception.class)
     public void registerReview(ProjectReviewVO projectReviewVO) {
         //게시글 추가
@@ -190,29 +205,51 @@ public class ProjectService {
         }
     }
 
-    public List<ProjectVO> getUserProjectList(Long companyNum, Criteria criteria){
-        return projectDAO.getUserProjectList(companyNum, criteria);
-    }
-
-    // 하나의 트랜잭션에 여러 개의 DML이 있을 경우 한 개라도 오류 시 전체 ROLLBACK
+    // 리뷰 수정
     @Transactional(rollbackFor = Exception.class)
-    public void registerProject (ProjectVO projectVO) {
-        //게시글 추가
-        projectDAO.register(projectVO);
-        //게시글에 업로드된 첨부파일 정보 중 게시글 번호를 따로 추가
-        if(projectVO.getFileList() != null) {
-            projectVO.getFileList().forEach(projectFileVO -> {
-                projectFileVO.setProjectNum(projectVO.getNum());
-                projectFileDAO.register(projectFileVO);
+    public void modifyReview(ProjectReviewVO projectReviewVO) {
+        // 기존 파일 삭제
+        projectReviewFileDAO.remove(projectReviewVO.getNum());
+
+        // 파일 추가
+        if (projectReviewVO.getFileList() != null) {
+            projectReviewVO.getFileList().forEach(projectReviewFileVO -> {
+                projectReviewFileVO.setProjectReviewNum(projectReviewVO.getNum());
+                projectReviewFileDAO.register(projectReviewFileVO);
             });
         }
+
+        // 게시물 수정
+        projectReviewDAO.update(projectReviewVO);
+    }
+
+    // 리뷰 사진 가져오기
+    public List<ProjectReviewFileVO>getReviewFileList(Long num){
+        return projectReviewFileDAO.findProjectReviewNum(num);
+    }
+
+    // 리뷰 정보 가져오기(수정용)
+    public ReviewDTO readReview(Long reviewNum){
+        return projectReviewDAO.readReview(reviewNum);
+    }
+
+    // 리뷰 삭제
+    public void removeReview(Long reviewNum){
+        projectReviewDAO.remove(reviewNum);
+    }
+
+    // 리뷰 목록
+    public List<ReviewDTO> getProjectReviewList(Long projectNum){
+        return projectReviewDAO.getReviewList(projectNum);
     }
 
 
-    // 파일 테스트
-    public void testFile(ProjectReviewFileVO projectReviewFileVO){
-        projectReviewFileDAO.register(projectReviewFileVO);
+    @Transactional
+    public boolean setApproval(Long projectNum, Long applyNum){
+        applyDAO.setApproachToContinue(applyNum);
+        return projectDAO.setApprovaltoContinue(projectNum);
     }
+
 
     // 프로젝트 목록(찜순)
     public List<ProjectMainDTO> getListJJim() throws ParseException {
@@ -340,16 +377,42 @@ public class ProjectService {
         for(ProjectVO pp : projectVOS){
             String strDate = pp.getStartTime();  // 기준 날짜 데이터 (("yyyy-MM-dd")의 형태)
             String todayFm = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis())); // 오늘날짜
-
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
             Date date = new Date(dateFormat.parse(strDate).getTime());
             Date today = new Date(dateFormat.parse(todayFm).getTime());
-
             long calculate = date.getTime() - today.getTime();
-
             int Ddays = (int) (calculate / ( 24*60*60*1000));
+            String Ddate ="";
+            if(Ddays==0){
+                Ddate = "오늘이에요!";
+            }else {
+                Ddate = "D" + Integer.toString(Ddays * (-1));
+            }
+            projectMainDTOS.add(new ProjectMainDTO(pp.getNum(),pp.getTitle(),pp.getTerrain(),pp.getPoint(),pp.getJjimCount(),Ddate,pp.getApplyCount()));
+        }
+        return projectMainDTOS;
+    }
 
+
+    public List<ProjectVO> getSearchList(String searchStr){
+        return projectDAO.getSearchList(searchStr);
+    }
+
+    // 프로젝트 지형별로 찾기
+    public List<ProjectMainDTO> getListTerrain(String terrain) throws ParseException{
+
+
+        List<ProjectMainDTO> projectMainDTOS = new ArrayList<>();
+        List<ProjectVO> projectVOS = projectDAO.getListTerrain(terrain);
+
+        for(ProjectVO pp : projectVOS){
+            String strDate = pp.getStartTime();  // 기준 날짜 데이터 (("yyyy-MM-dd")의 형태)
+            String todayFm = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis())); // 오늘날짜
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date(dateFormat.parse(strDate).getTime());
+            Date today = new Date(dateFormat.parse(todayFm).getTime());
+            long calculate = date.getTime() - today.getTime();
+            int Ddays = (int) (calculate / ( 24*60*60*1000));
             String Ddate ="";
             if(Ddays==0){
                 Ddate = "오늘이에요!";
@@ -363,11 +426,18 @@ public class ProjectService {
     }
 
 
-    public List<ProjectVO> getSearchList(String searchStr){
-        return projectDAO.getSearchList(searchStr);
+    // 찜 목록
+    public int jjimCount(Long projectNum){
+        return jjimDAO.myProjectJjimCount(projectNum);
     }
 
-    // 프로젝트 지형별로 찾기
-    public List<ProjectVO> getListTerrain(String terrain) { return projectDAO.getListTerrain(terrain);}
+    //찜 추가
+    public void jjimPlus(Long projectNum){
+        projectDAO.jjimPlus(projectNum);
+    }
+    //찜 마이너스
+    public void jjimMinus(Long projectNum){
+        projectDAO.jjimMinus(projectNum);
+    }
 
 }

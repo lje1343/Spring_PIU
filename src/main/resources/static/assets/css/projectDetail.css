@@ -59,6 +59,7 @@ body {
 
 .readDetail {
     font-family: 'Noto Sans KR', sans-serif;
+    height: 100%;
     width: 66.6667%;
     min-height: 1px;
     padding-right: 12px;
@@ -239,15 +240,8 @@ body {
     width: 100%;
 }
 
-.projectApplicantFrame :hover{
-    background-color: rgba(255, 85, 0, 0.532);
-}
 
 .projectApplicantBtn :hover {
-    background-color: rgba(255, 85, 0, 0.532);
-}
-
-.projectApplicant :hover{
     background-color: rgba(255, 85, 0, 0.532);
 }
 
@@ -320,8 +314,8 @@ body {
     justify-content: center;
     -webkit-box-align: center;
     align-items: center;
-    font-size: 0px;
     width: 18px;
+    font-size: 15px;
     height: 18px;
     margin-right: 4px;
 }
@@ -916,8 +910,9 @@ body {
     font-family: 'Noto Sans KR', sans-serif;
 }
 
-.qnaFrame {
+#toitem_question {
     display: flex;
+    display: block;
     flex-wrap: wrap;
     -webkit-box-pack: start;
     place-content: stretch flex-start;
@@ -1388,4 +1383,19 @@ share_container{
 }
 .link_copy{
     padding-bottom: 3px;
+}
+
+.imgBox{
+    height: 100%;
+}
+
+.material-icons-outlined like{
+    color:red;
+}
+.material-icons{
+    color: red;
+}
+
+#likebtn{
+    color:red;
 }

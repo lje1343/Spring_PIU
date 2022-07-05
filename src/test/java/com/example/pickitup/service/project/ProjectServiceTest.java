@@ -1,6 +1,8 @@
 package com.example.pickitup.service.project;
 
+import com.example.pickitup.domain.vo.user.JjimVO;
 import com.example.pickitup.service.ProjectService;
+import com.example.pickitup.service.user.JjimService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import java.text.ParseException;
 public class ProjectServiceTest {
     @Autowired
     private ProjectService projectService;
+    private JjimService jjimService;
 
 //    @Test
 //    public void getListJJimTest(){
@@ -34,4 +37,12 @@ public class ProjectServiceTest {
         log.info(projectService.getListCourse("산").toString());
     }
 
+    @Test
+    public void addJjimTtetes() throws ParseException{
+        JjimVO vo = new JjimVO();
+        vo.setProjectNum(230L);
+        vo.setUserNum(81L);
+        vo.setCategory("2");
+        projectService.addJjim(vo);
+    }
 }

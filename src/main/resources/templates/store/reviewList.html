@@ -102,7 +102,7 @@
     let possible = true;
     reviewWriter();
     function reviewWriter(){
-        for (let i = start; i < end; i++){  //0 , 1 인덱스 >> 0부터 2까지
+        for (let i = start; i < total; i++){  //0 , 1 인덱스 >> 0부터 2까지
             let userNum = reviews[i].userNum;
             qnaService.getUserinfo(userNum,function (user) {
                 $(".review_id#"+reviews[i].num+"").text(user.nickname);

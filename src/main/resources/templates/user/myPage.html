@@ -27,41 +27,41 @@
         </a></header>
         <div class="mypage-wrap">
             <aside class="left-side">
-                <section class="first-section-top">
-                    <h4 class="first-section-top-letter">내 등급</h4><a color="#00B031" class="second-section-top"
-                                                                     href="#">
-                    <div class="second-section-middle">
-                        <h4 class="second-section-letter">Lv. <i class="sc-6345c08d-9 second-section-icon"></i>
-                        </h4><span class="second-section-right">
-                                    <div class="second-section-right-letter">혜택보기</div> <svg
-                            xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none"
-                            viewBox="0 0 24 24">
-                                        <path fill-rule="evenodd" d="M8.5 18.5l6-6.5-6-6.5L10 4l7.5 8-7.5 8-1.5-1.5z"
-                                              fill="#FFF"></path>
-                                    </svg>
-                                </span>
-                    </div>
-                    <div class="second-section-line">
-                        <div value="0" class="second-section-box"></div>
-                    </div>
-                    <div class="second-section-bottom-letter"><span class="second-letter">10,000P</span> 추가 적립시
-                        다음 달 Lv. Professional</div>
-                </a>
-                </section>
+<!--                <section class="first-section-top">-->
+<!--                    <h4 class="first-section-top-letter">내 등급</h4><a color="#00B031" class="second-section-top"-->
+<!--                                                                     href="#">-->
+<!--                    <div class="second-section-middle">-->
+<!--                        <h4 class="second-section-letter">Lv. <i class="sc-6345c08d-9 second-section-icon"></i>-->
+<!--                        </h4><span class="second-section-right">-->
+<!--                                    <div class="second-section-right-letter">혜택보기</div> <svg-->
+<!--                            xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none"-->
+<!--                            viewBox="0 0 24 24">-->
+<!--                                        <path fill-rule="evenodd" d="M8.5 18.5l6-6.5-6-6.5L10 4l7.5 8-7.5 8-1.5-1.5z"-->
+<!--                                              fill="#FFF"></path>-->
+<!--                                    </svg>-->
+<!--                                </span>-->
+<!--                    </div>-->
+<!--                    <div class="second-section-line">-->
+<!--                        <div value="0" class="second-section-box"></div>-->
+<!--                    </div>-->
+<!--                    <div class="second-section-bottom-letter"><span class="second-letter">10,000P</span> 추가 적립시-->
+<!--                        다음 달 Lv. Professional</div>-->
+<!--                </a>-->
+<!--                </section>-->
                 <section class="third-section">
                     <h4 class="third-section-top">내 정보</h4><a class="third-section-top-a" href="/user/myPassword">
                     <div class="third-section-top-div">비밀번호 변경</div>
 
                 </a><a class="third-section-middle" href="/user/myPoint">
                     <div class="third-section-middle-div">내 포인트</div>
-                    <div class="third-section-middle-div2">
-                        <div class="third-section-middle-div3" th:text="|${getDetail.getPoint()}P|"></div><svg xmlns="http://www.w3.org/2000/svg"
-                                                                            width="14" height="14" fill="none" class="third-section-middle-div4"
-                                                                            viewBox="0 0 24 24">
-                        <path fill-rule="evenodd" d="M8.5 18.5l6-6.5-6-6.5L10 4l7.5 8-7.5 8-1.5-1.5z"
-                              fill="#cacaca"></path>
-                    </svg>
-                    </div>
+<!--                    <div class="third-section-middle-div2">-->
+                    <!--                        <div class="third-section-middle-div3" th:text="|${getDetail.getPoint()}P|"></div><svg xmlns="http://www.w3.org/2000/svg"-->
+                    <!--                                                                            width="14" height="14" fill="none" class="third-section-middle-div4"-->
+                    <!--                                                                            viewBox="0 0 24 24">-->
+                    <!--                        <path fill-rule="evenodd" d="M8.5 18.5l6-6.5-6-6.5L10 4l7.5 8-7.5 8-1.5-1.5z"-->
+                    <!--                              fill="#cacaca"></path>-->
+                    <!--                    </svg>-->
+                    <!--                    </div>-->
                 </a><a class="third-section-bottom-bottom" href="/user/myQnA">
                     <div class="third-section-bottom-div3">내 문의</div>
                     <div class="third-section-bottom-div-div">
@@ -126,12 +126,13 @@
                                         </span>
                                 </div>
                             </div>
+                            <button type="button" style="margin-bottom: 20px;" onclick = "location.href = '/project/add/'+ ">후기작성</button>
                             <div class="join-plogging-wrap">
                                 <ul class="yslides_1">
                                     <li class="join-plogging-lists" th:each="project:${inProjectList}">
                                         <div class="join-plogging-list" th:object="${project}">
                                             <div class="join-plogging-item">
-                                                <a class="join-plogging-a" href="#">
+                                                <a class="join-plogging-a" th:href="@{/project/projectDetail(num=*{num})}">
                                                     <div class="join-plogging-content">
                                                         <div class="join-plogging-content-up">
                                                                 <span class="join-plogging-content-image" th:href="*{num}">
@@ -189,8 +190,9 @@
                                     <li class="visited-plogging-lists" th:each="project:${seenProjectList}">
                                         <div class="visited-plogging-list" th:object="${project}">
                                             <div class="visited-plogging-item">
-                                                <a class="visited-plogging-a" href="#">
+                                                <a class="visited-plogging-a" th:href="@{/project/projectDetail(num=*{num})}">
                                                     <div class="visited-plogging-content">
+
                                                         <div class="visited-plogging-content-up">
                                                                 <span class="visited-plogging-content-image" th:href="*{num}">
                                                                 </span>
@@ -247,7 +249,7 @@
                                     <li class="jjim-plogging-lists" th:each="project:${jjimProjectList}">
                                         <div class="jjim-plogging-list" th:object="${project}">
                                             <div class="jjim-plogging-item">
-                                                <a class="jjim-plogging-a" href="#">
+                                                <a class="jjim-plogging-a" th:href="@{/project/projectDetail(num=*{num})}">
                                                     <div class="jjim-plogging-content">
                                                         <div class="jjim-plogging-content-up">
                                                                 <span class="jjim-plogging-content-image" th:href="*{num}">
@@ -304,7 +306,7 @@
                                     <li class="pay-store-lists" th:each="product:${inProductList}">
                                         <div class="pay-store-list" th:object="${product}">
                                             <div class="pay-store-item">
-                                                <a class="pay-store-a" href="#">
+                                                <a class="pay-store-a" th:href="@{/store/detail(num=*{num})}">
                                                     <div class="pay-store-content">
                                                         <div class="pay-store-content-up">
                                                                 <span class="pay-store-content-image" th:href="*{num}">
@@ -365,7 +367,7 @@
                                     <li class="visited-store-lists" th:each="product:${seenProductList}">
                                         <div class="visited-store-list" th:object="${product}">
                                             <div class="visited-store-item">
-                                                <a class="visited-store-a" href="#">
+                                                <a class="visited-store-a" th:href="@{/store/detail(num=*{num})}">
                                                     <div class="visited-store-content">
                                                         <div class="visited-store-content-up">
                                                                 <span class="visited-store-content-image" th:href="*{num}">
@@ -426,7 +428,7 @@
                                     <li class="jjim-store-lists" th:each="product:${jjimProductList}">
                                         <div class="jjim-store-list" th:object="${product}">
                                             <div class="jjim-store-item">
-                                                <a class="jjim-store-a" href="#">
+                                                <a class="jjim-store-a" th:href="@{/store/detail(num=*{num})}">
                                                     <div class="jjim-store-content">
                                                         <div class="jjim-store-content-up">
                                                                 <span class="jjim-store-content-image" th:href="*{num}">
@@ -557,7 +559,7 @@
             type: "get",
             success : function (files) {
                 str += "<picture class='join-plogging-main-image'>";
-                str += "<img src='/projectFile/display1?fileName=" + files[0].uploadPath + "/s_" + files[0].uuid + "_"  + files[0].fileName + "'>";
+                str += "<img src='/projectFile/display1?fileName=" + files[0].uploadPath + "/" + files[0].uuid + "_"  + files[0].fileName + "'>";
                 str += "</picture>";
                 $(h).html(str);
                 str = "";
@@ -573,7 +575,7 @@
             type: "get",
             success : function (files) {
                 str += "<picture class='visited-plogging-main-image'>";
-                str += "<img src='/projectFile/display1?fileName=" + files[0].uploadPath + "/s_" + files[0].uuid + "_"  + files[0].fileName + "'>";
+                str += "<img src='/projectFile/display1?fileName=" + files[0].uploadPath + "/" + files[0].uuid + "_"  + files[0].fileName + "'>";
                 str += "</picture>";
                 $(h).html(str);
                 str = "";
@@ -588,7 +590,7 @@
             type: "get",
             success : function (files) {
                 str += "<picture class='jjim-plogging-main-image'>";
-                str += "<img src='/projectFile/display1?fileName=" + files[0].uploadPath + "/s_" + files[0].uuid + "_"  + files[0].fileName + "'>";
+                str += "<img src='/projectFile/display1?fileName=" + files[0].uploadPath + "/" + files[0].uuid + "_"  + files[0].fileName + "'>";
                 str += "</picture>";
                 $(h).html(str);
                 str = "";
@@ -604,7 +606,7 @@
             type: "get",
             success : function (files) {
                 str += "<picture class='pay-store-main-image'>";
-                str += "<img src='/productFile/display?fileName=" + files[0].uploadPath + "/s_" + files[0].uuid + "_"  + files[0].fileName + "'>";
+                str += "<img src='/productFile/display?fileName=" + files[0].uploadPath + "/" + files[0].uuid + "_"  + files[0].fileName + "'>";
                 str += "</picture>";
                 $(h).html(str);
                 str = "";
@@ -619,7 +621,7 @@
             type: "get",
             success : function (files) {
                 str += "<picture class='visited-store-main-image'>";
-                str += "<img src='/productFile/display?fileName=" + files[0].uploadPath + "/s_" + files[0].uuid + "_"  + files[0].fileName + "'>";
+                str += "<img src='/productFile/display?fileName=" + files[0].uploadPath + "/" + files[0].uuid + "_"  + files[0].fileName + "'>";
                 str += "</picture>";
                 $(h).html(str);
                 str = "";
@@ -634,7 +636,7 @@
             type: "get",
             success : function (files) {
                 str += "<picture class='jjim-store-main-image'>";
-                str += "<img src='/productFile/display?fileName=" + files[0].uploadPath + "/s_" + files[0].uuid + "_"  + files[0].fileName + "'>";
+                str += "<img src='/productFile/display?fileName=" + files[0].uploadPath + "/" + files[0].uuid + "_"  + files[0].fileName + "'>";
                 str += "</picture>";
                 $(h).html(str);
                 str = "";

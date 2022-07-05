@@ -30,7 +30,7 @@ public class UserFileRestController {
     @GetMapping("/display")
     @ResponseBody
     public byte[] getFile(String fileName) throws IOException {
-        File file = new File("C:/upload/", fileName);
+        File file = new File("C:/upload", fileName);
         log.info(file.getPath());
         return FileCopyUtils.copyToByteArray(file);
     }

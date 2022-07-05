@@ -96,25 +96,25 @@
                                     됩니다.<br>( 산 : +100p, 바닷가 : +50p, 3km까지 100p 3km 초과 시 1km 마다 50p 추가 )
                                 </div>
 
-                                    <div class="formTerrain">
-                                        <label class="formTerrainLabel">지형</label>
-                                        <select class="formTerrainSelect" name="terrain">
-                                            <option value hidden disalbed>지형을 입력해주세요.</option>
-                                            <option class="mountain" value="mountain">산 ( +100p )</option>
-                                            <option class="beach" value="beach">바닷가 ( + 50p )</option>
-                                            <option class="ground" value="ground">평지</option>
-                                        </select>
-                                    </div>
-                                    <label class="startTimeLabel">시작일자</label>
-                                    <input type="datetime-local" class="startTime" name="startTime">
-                                    <label class="endTimeLabel">종료일자</label>
-                                    <input type="datetime-local" class="endTime" name="endTime">
+                                <div class="formTerrain">
+                                    <label class="formTerrainLabel">지형</label>
+                                    <select class="formTerrainSelect" name="terrain">
+                                        <option value hidden disalbed>지형을 입력해주세요.</option>
+                                        <option class="mountain" value="mountain">산 ( +100p )</option>
+                                        <option class="beach" value="beach">바닷가 ( + 50p )</option>
+                                        <option class="ground" value="ground">평지</option>
+                                    </select>
+                                </div>
+                                <label class="startTimeLabel">시작일자</label>
+                                <input type="datetime-local" class="startTime" name="startTime">
+                                <label class="endTimeLabel">종료일자</label>
+                                <input type="datetime-local" class="endTime" name="endTime">
                                 <div class="formCourse">
                                     <label class="formCourseLabel">코스 / 장소</label>
                                     <div class="formCoureSelectBox">
                                         <select class="formCourseSelect" id="selectCourse" onchange="changeValue()"
                                                 name="course">
-                                            <option value="place">장소</option>
+                                            <option value="place" selected>장소</option>
                                             <option value="course">코스 ( 3km까지 100p 3km 초과 시 1km 마다 50p 추가 )</option>
                                         </select>
                                         <div class="addressBox">
@@ -126,7 +126,7 @@
                                                        value="주소 찾기">
                                             </div>
                                             <div style="width: 100%;">
-                                                <div style="width: 71%;">
+                                                <div style="width: 62%;">
                                                     <input type="text" id="start_addressDetail" placeholder="상세주소"
                                                            name="startAddressDetail">
                                                 </div>
@@ -145,7 +145,7 @@
                                                        value="주소 찾기">
                                             </div>
                                             <div style="width: 100%;">
-                                                <div style="width: 71%;">
+                                                <div style="width: 62%;">
                                                     <input type="text" id="end_addressDetail" placeholder="상세주소"
                                                            name="endAddressDetail">
                                                 </div>
@@ -154,7 +154,7 @@
 
                                         <div
                                                 style="width: 100%; margin-top: 10px; margin-bottom: 60px; font-size: 15px;     font-family: 'Noto Sans KR', sans-serif;">
-                                            <div style="width: 71%; display: flex; justify-content: space-between;">
+                                            <div style="width: 62%; display: flex; justify-content: space-between;">
                                                 <div>예상 지급 포인트</div>
                                                 <div style="display: flex;">
                                                     <p style="margin: 0;" id="distance_point"></p>P
@@ -171,7 +171,8 @@
                         </div>
                     </div>
                 </div>
-                <div id="map" style="width:500px;height:500px;"></div>
+                <div id="mapBox">
+                    <div id="map" style="width:500px;height:500px;"></div></div>
                 <div class="nextBtnFrame">
                     <button type="button" class="nextPage step2">
                         <span class="nextPageBtn">다음</span>
@@ -196,9 +197,7 @@
                                             <input type="file" id="attach" class="subImgInput" name="uploadFiles">
                                             <div class="photoImgFrame">
                                                 <div class="photoImgForm">
-                                                    <img
-                                                            src="/src/main/resources/static/images/add-photo-portrait.png"
-                                                            id="img0" style="max-width: 100%; height: auto;">
+
                                                     <p class="photoFieldDescription"></p>
                                                 </div>
                                             </div>
@@ -215,8 +214,7 @@
                                                 <div class="subImgExamForm">
                                                         <span class="subImgExamContainer">
                                                             <picture class="subImgExamItem">
-                                                                <img src="/src/main/resources/static/images/cover-04.jpg"
-                                                                      class="coverImg" style="max-width: 100%; height: auto;">
+
                                                             </picture>
                                                         </span>
                                                 </div>
@@ -227,8 +225,7 @@
                                                 <div class="subImgExamForm">
                                                         <span class="subImgExamContainer">
                                                             <picture class="subImgExamItem">
-                                                                <img src="/src/main/resources/static/images/cover-05.jpg"
-                                                                     class="coverImg" style="max-width: 100%; height: auto;">
+
                                                             </picture>
                                                         </span>
                                                 </div>
@@ -239,8 +236,8 @@
                                                 <div class="subImgExamForm">
                                                         <span class="subImgExamContainer">
                                                             <picture class="subImgExamItem">
-                                                                <img src="/src/main/resources/static/images/cover-06.jpg"
-                                                                     class="coverImg" >
+<!--                                                                <img src="/src/main/resources/static/images/cover-06.jpg"-->
+<!--                                                                     class="coverImg" >-->
                                                             </picture>
                                                         </span>
                                                 </div>
@@ -266,7 +263,7 @@
                                     <label class="subImgTitle">프로젝트 상세내용 </label>
                                     <div>
                                             <textarea class="groupTextInput" name="content"
-                                                      placeholder="프로젝트의 상세내용을 기재해주세요"></textarea>
+                                                      placeholder="참가자들에게 안내해줄 사항 및 프로젝트 진행 상세에 대해 기재해주세요"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -297,8 +294,7 @@
                                         <label for="attach1" class="imgInsertWindow">
                                             <div class="introImgContainer">
                                                 <div class="introImgBox1">
-                                                    <img src="" style="max-width: 100%; height: auto;"
-                                                         id="img1">
+
                                                     <h2 class="introImgText">프로젝트에 대한 상세내용</h2>
                                                     <p class="imgFieldDefault"></p>
                                                 </div>
@@ -311,8 +307,7 @@
 
                                             <div class="introImgContainer">
                                                 <div class="introImgBox2">
-                                                    <img src="" style="max-width: 100%; height: auto;"
-                                                         id="img2">
+
                                                     <h2 class="introImgText">프로젝트에 대한 상세내용</h2>
                                                     <p class="imgFieldDefault"></p>
                                                 </div>
@@ -325,8 +320,7 @@
 
                                             <div class="introImgContainer">
                                                 <div class="introImgBox3">
-                                                    <img src="" style="max-width: 100%; height: auto;"
-                                                         id="img3">
+
                                                     <h2 class="introImgText">프로젝트에 대한 상세내용</h2>
                                                     <p class="imgFieldDefault"></p>
                                                 </div>
@@ -339,6 +333,10 @@
                             <div class="nextBtnFrame">
                                 <button type="button" class="prevPage step2" >
                                     <span class="prevPageBtn">이전</span>
+                                </button>
+
+                                <button type="button" class="test" >
+                                    <span class="prevPageBtn">test</span>
                                 </button>
 
                                 <button type="button" class="nextPage step3">
@@ -358,30 +356,34 @@
                             <h3 class="cpGroupIntroTitle">단체를 소개해 주세요</h3>
                             <div class="groupIntroProfileFrame">
                                 <label class="groupIntroProfileTitle">프로필</label>
+                                <!--                                <input type="hidden" name="companyNum" th:value="${company.num}">-->
                                 <!-- 프로필 사진 -->
-                                <img src="/src/main/resources/static/images/chun2.png" class="profileImage" alt="">
+                                <!--                                <img th:src="@{/groupFile/display?fileName=} + ${company.profileUploadPath} + @{/} + ${company.profileFileName}" alt="" class="group">-->
+                                </label>
                             </div>
-                            </label>
-                        </div>
-                        <div class="introGroupTextFrame">
-                            <label class="groupIntroText">단체 소개</label>
-                            <div class="groupIntroTextForm">
+                            <div class="introGroupTextFrame">
+                                <label class="groupIntroText">단체 소개</label>
+                                <div class="groupIntroTextForm">
                                     <textarea class="groupTextInput" name="companyComment"
                                               placeholder="어떤 단체인지 소개해 주세요."></textarea>
+                                </div>
+                            </div>
+                            <div class="introGroupGuideFrame">사용자님 단체의 매력을 소개해주세요. 단체 소개가 플로거의 마음을 움직일 수 있을거예요!
                             </div>
                         </div>
-                        <div class="introGroupGuideFrame">사용자님 단체의 매력을 소개해주세요. 단체 소개가 플로거의 마음을 움직일 수 있을거예요!
-                        </div>
                     </div>
-                </div>
-                <div class="nextBtnFrame">
-                    <button type="button" class="prevPage step3">
-                        <span class="prevPageBtn">이전</span>
-                    </button>
+                    <div class="nextBtnFrame">
+                        <button type="button" class="prevPage step3">
+                            <span class="prevPageBtn">이전</span>
+                        </button>
+                        <button type="button" class="test">
+                            <span class="nextPageBtn">다음</span>
+                        </button>
 
-                    <button type="button" class="nextPage step4">
-                        <span class="nextPageBtn">다음</span>
-                    </button>
+                        <button type="button" class="nextPage step4">
+                            <span class="nextPageBtn">다음</span>
+                        </button>
+                    </div>
                 </div>
             </div>
             <!-- 옆에 배너입니다 cpContentForm 끝나는 부분에 넣어주시면 됩니다 -->
@@ -401,13 +403,7 @@
                                 <div class="cpCheckBoxFrame">
                                     <label class="cpCheckBoxForm">
                                         <div class="cpCheckBoxContainer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 fill="none" viewBox="0 0 24 24">
-                                                <path fill-rule="evenodd"
-                                                      d="M20 20H4V4h16v16zM4 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2H4z"
-                                                      fill="#1B1C1D"></path>
-                                            </svg>
-                                            <input name="cpCheckBox1" type="checkbox" class="cpCheckBox1">
+                                            <input name="cpCheckBox1" type="checkbox" class="cpCheckBox1" required>
                                         </div>
                                         <span class="cpCheckBoxInfo1">네, 모두 잘 적었어요.</span>
                                     </label>
@@ -429,13 +425,8 @@
                                 <div class="cpCheckBoxFrame">
                                     <label class="cpCheckBoxForm">
                                         <div class="cpCheckBoxContainer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 fill="none" viewBox="0 0 24 24">
-                                                <path fill-rule="evenodd"
-                                                      d="M20 20H4V4h16v16zM4 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2H4z"
-                                                      fill="#1B1C1D"></path>
-                                            </svg>
-                                            <input name="cpCheckBox2" type="checkbox" class="cpCheckBox1">
+
+                                            <input name="cpCheckBox2" type="checkbox" class="cpCheckBox1" required>
                                         </div>
                                         <span class="cpCheckBoxInfo2">네, 모두 잘 적었어요.</span>
                                     </label>
@@ -452,13 +443,8 @@
                                 <div class="cpCheckBoxFrame">
                                     <label class="cpCheckBoxForm">
                                         <div class="cpCheckBoxContainer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 fill="none" viewBox="0 0 24 24">
-                                                <path fill-rule="evenodd"
-                                                      d="M20 20H4V4h16v16zM4 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2H4z"
-                                                      fill="#1B1C1D"></path>
-                                            </svg>
-                                            <input name="cpCheckBox3" type="checkbox" class="cpCheckBox1">
+
+                                            <input name="cpCheckBox3" type="checkbox" class="cpCheckBox1" required>
                                         </div>
                                         <span class="cpCheckBoxInfo3">네, 모두 잘 적었어요.</span>
                                     </label>
@@ -477,7 +463,6 @@
                     </button>
                 </div>
             </div>
-
         </form>
     </div>
 </div>
@@ -496,7 +481,107 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8460d42f853294e33918a26eaad645a2&libraries=services"></script>
 
-<script>
+<script th:inline="javascript">
+
+    console.log($('.formCourseSelect').val());
+    //첨부파일 input태그 가져오기
+    const file0 = document.querySelector("input#attach");
+    const file1 = document.querySelector("input#attach1");
+    const file2 = document.querySelector("input#attach2");
+    const file3 = document.querySelector("input#attach3");
+    const thumbnail0 = document.querySelector(".photoImgFrame");
+    const thumbnail1 = document.querySelector(".introImgBox1");
+    const thumbnail2 = document.querySelector(".introImgBox2");
+    const thumbnail3 = document.querySelector(".introImgBox3");
+
+
+    file0.addEventListener("change", function(event){
+        //특정 경로의 파일을 읽어올 때 사용.
+        let reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        reader.onload = function(event){
+            //등록된 파일의 경로에 작성된 파일의 타입검사
+            if(event.target.result.includes("image")){
+                console.log("이미지 파일입니다.");
+                //등록된 파일의 경로로 대체
+                thumbnail0.style.backgroundImage = "url(\"" + event.target.result + "\")";
+
+            }else{
+                alert("이미지 파일이 아닙니다.");
+                //미리 준비해놓은 이미지 경로로 대체
+                $(thumbnail0).text("");
+                thumbnail0.style.backgroundImage = "url(/images/error.png)";
+            }
+        }
+    });
+
+    file1.addEventListener("change", function(event){
+        //특정 경로의 파일을 읽어올 때 사용.
+        let reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        reader.onload = function(event){
+            //등록된 파일의 경로에 작성된 파일의 타입검사
+            if(event.target.result.includes("image")){
+                console.log("이미지 파일입니다.");
+                $(thumbnail0).text("");
+
+                //등록된 파일의 경로로 대체
+                thumbnail1.style.backgroundImage = "url(\"" + event.target.result + "\")";
+                thumbnail1.style.backgroundSize = "cover";
+                thumbnail1.style.backgroundRepeat = "no-repeat";
+            }else{
+                alert("이미지 파일이 아닙니다.");
+                //미리 준비해놓은 이미지 경로로 대체
+                $(thumbnail0).text("");
+                thumbnail1.style.backgroundImage = "url(/images/error.png)";
+            }
+        }
+    });
+
+    file2.addEventListener("change", function(event){
+        //특정 경로의 파일을 읽어올 때 사용.
+        let reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        reader.onload = function(event){
+            //등록된 파일의 경로에 작성된 파일의 타입검사
+            if(event.target.result.includes("image")){
+                console.log("이미지 파일입니다.");
+                //등록된 파일의 경로로 대체
+                thumbnail2.style.backgroundImage = "url(\"" + event.target.result + "\")";
+                thumbnail2.style.backgroundSize = "cover";
+                thumbnail2.style.backgroundRepeat = "no-repeat";
+
+
+            }else{
+                alert("이미지 파일이 아닙니다.");
+                //미리 준비해놓은 이미지 경로로 대체
+                $(thumbnail0).text("");
+                thumbnail2.style.backgroundImage = "url(/images/error.png)";
+            }
+        }
+    });
+
+    file3.addEventListener("change", function(event){
+        //특정 경로의 파일을 읽어올 때 사용.
+        let reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        reader.onload = function(event){
+            //등록된 파일의 경로에 작성된 파일의 타입검사
+            if(event.target.result.includes("image")){
+                console.log("이미지 파일입니다.");
+                //등록된 파일의 경로로 대체
+                thumbnail3.style.backgroundImage = "url(\"" + event.target.result + "\")";
+                thumbnail3.style.backgroundSize = "cover";
+                thumbnail3.style.backgroundRepeat = "no-repeat";
+            }else{
+                alert("이미지 파일이 아닙니다.");
+                //미리 준비해놓은 이미지 경로로 대체
+                thumbnail3.style.backgroundImage = "url(/images/error.png)";
+            }
+        }
+    });
+
+
     let step = "1";
     $('.prevPage').on("click", function () {
         step--;
@@ -552,7 +637,7 @@
             $('.cpTitlepercent').text("75% 완료");
         }else if(step == "5"){
             $('.cpTitlepercent').text("100% 완료");
-        }else if(step == "0"){
+        }else if(step == "1"){
             $('.cpTitlepercent').text("0% 완료");
 
         }
@@ -560,11 +645,7 @@
     })
 
 
-
-
-
-
-        let endAddress = document.querySelector(".addressBoxEnd");
+    let endAddress = document.querySelector(".addressBoxEnd");
     function changeValue() {
         let selectCourse = document.getElementById("selectCourse");
         selectCourse = selectCourse.options[selectCourse.selectedIndex].value;
@@ -663,9 +744,7 @@
                 if (출발.length == 0) { //처음 장소 넣을때
                     출발.push(items[0].x);
                     출발.push(items[0].y);
-                    getStartMap();
-                    console.log(출발[0]);
-                    console.log(출발[1]);
+                    getStartMap(출발[1],출발[0]);
 
 
                 } else if (출발.length == 2) { //출발지만 입력후 출발지 수정
@@ -673,7 +752,8 @@
                     출발[1] = items[0].y;      //수정함
                     console.log(출발[0]);
                     console.log(출발[1]);
-                    getStartMap();
+                    getStartMap(출발[1],출발[0]);
+
                 }
                 if ((출발.length + 도착.length) == 4) {
                     dist();
@@ -711,7 +791,10 @@
                 }
                 if ((출발.length + 도착.length) == 4) {
                     // 지도 생성 시킬것
-                    getMap($('#x1').val(), $('#y1').val(), $('#x2').val(), $('#y2').val());
+
+                    $('#map').remove();
+                    $('#mapBox').append("<div id=\"map\" style=\"width:500px;height:500px;\"></div>");
+                    getMap($('#y1').val(), $('#x1').val(), $('#y2').val(), $('#x2').val());
                     dist();
                 }
             });
@@ -774,28 +857,29 @@
         }
     }
 
-    function getStartMap() {
+    function getStartMap(x1, y1) {
+        console.log(x1);
+        console.log(y1);
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {
-                center: new kakao.maps.LatLng(33.4506913, 126.5706148), // 지도의 중심좌표
-                level: 3 // 지도의 확대 레벨
+                center: new kakao.maps.LatLng(x1, y1), // 지도의 중심좌표
+                level: 2 // 지도의 확대 레벨
             };
 
         var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-        // // 마커가 표시될 위치입니다
-        // var markerPosition  = new kakao.maps.LatLng(x1, y1);
-        //
-        // // 마커를 생성합니다
-        // var marker = new kakao.maps.Marker({
-        //     position: markerPosition
-        // });
-        //
-        // // 마커가 지도 위에 표시되도록 설정합니다
-        // marker.setMap(map);
+        // 마커가 표시될 위치입니다
+        var markerPosition  = new kakao.maps.LatLng(x1, y1);
+
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+            position: markerPosition
+        });
+
+        // 마커가 지도 위에 표시되도록 설정합니다
+        marker.setMap(map);
 
     };
-
 
 
 
@@ -807,8 +891,10 @@
 
 
 
+
     // 사진 등록
-    $("input[type='file']").on("change", function (e) {
+    $('.test').on("click", function () {
+        console.log('hello');
         let formData =   new FormData();
         let inputFile = $("input[name='uploadFiles']");
         for(let i=0; i<inputFile.length; i++){
@@ -816,7 +902,7 @@
                 formData.append("uploadFiles", inputFile[i].files[0]);
                 console.log(inputFile[i].files[0]);
             }
-        };
+        }
         $.ajax({
             url: "/projectFile/upload",
             type: "post",
@@ -824,21 +910,20 @@
             contentType: false,
             processData: false,
             success: function (files) {
-                str = "";
+                let str = "";
                 $(files).each(function (i, file) {
                     console.log(file);
-                    str += "<input type='hidden' name='fileList[" + i + "].fileName' value='" + file.fileName + "'>"
-                    str += "<input type='hidden' name='fileList[" + i + "].uuid' value='" + file.uuid + "'>"
-                    str += "<input type='hidden' name='fileList[" + i + "].uploadPath' value='" + file.uploadPath + "'>"
+                    str += "<input name='fileList[" + i + "].fileName' value='" + file.fileName + "'>"
+                    str += "<input name='fileList[" + i + "].uuid' value='" + file.uuid + "'>"
+                    str += "<input name='fileList[" + i + "].uploadPath' value='" + file.uploadPath + "'>"
 
-                    $('.photoAddText').css("display", "none");
-                    console.log( $('#img' + i));
-                    $('#img' + i).attr("src", "/projectFile/display?fileName=" + file.uploadPath + "/" + file.uuid + "_" + file.fileName);
                 });
                 $('.imgInsertForm').append(str);
+                $('#projectForm').submit();
 
             }
-        });
+
+    });
     });
 
 
@@ -867,16 +952,6 @@
         });
     });
 
-
-    // 카카오 지도
-    //
-    // var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-    //     mapOption = {
-    //         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-    //         level: 3 // 지도의 확대 레벨
-    //     };
-    //
-    // var map = new kakao.maps.Map(mapContainer, mapOption);
 
 </script>
 

@@ -58,10 +58,11 @@ public class StoreController {
         if(category == ""){
             category = null;
         }
+        log.info(request.getRequestURI().split("/")[1]);
         model.addAttribute("productsCount",productService.count());
         model.addAttribute("productlist",productService.getList(category));
         log.info("유저 넘버 : " + userNum);
-        log.info("========================="+request.getRequestURI().split("/")[1]);
+        model.addAttribute("url",request.getRequestURI().split("/")[1]);
     }
 
     @ResponseBody
@@ -150,21 +151,16 @@ public class StoreController {
     // 스토어 리뷰 작성 폼
     @PostMapping("/reviewWrite")
     public RedirectView reviewWriteForm(HttpSession session, ProductReviewVO productReviewVO, RedirectAttributes rttr,Long productNum, Model model){
-//        model.addAttribute("user", productNum); 유저의 정보 가져와야함.?? 어떻게??
         int checkLogin=3;
         Long userNum = Long.parseLong(session.getAttribute("num").toString());
         model.addAttribute("fileName",session.getAttribute("fileName"));
         model.addAttribute("uploadPath",session.getAttribute("uploadPath"));
         model.addAttribute("checkLogin",checkLogin);
-        log.info("===================================");
-        log.info("프로덕트넘버다"+productReviewVO.getProductNum());
-        log.info("===================================");
         productReviewVO.setUserNum(userNum);
-        log.info("productNum======="+productNum);
-        log.info("productNum======="+productReviewVO.getProductNum());
         productReviewService.insert(productReviewVO);
-        rttr.addAttribute("num",productNum);
+//      rttr.addAttribute("num",productNum);
         rttr.addAttribute("num",productReviewVO.getProductNum());
+        rttr.addAttribute("userNum",userNum);
         return new RedirectView("/store/detail");
 //
     }
@@ -248,7 +244,7 @@ public class StoreController {
         model.addAttribute("checkLogin",checkLogin);
 
         productQnaService.register(productQnaVO);
-        tempAdminService.qnaStoreSave(adminQnaDTO);
+//        tempAdminService.qnaStoreSave(adminQnaDTO);
         return storeDetail(session, productQnaVO.getProductNum(), model);
     }
 
@@ -274,7 +270,7 @@ public class StoreController {
         model.addAttribute("checkLogin",checkLogin);
 
         productQnaService.update(productQnaVO);
-        tempAdminService.qnaStoreModify(adminQnaDTO);
+//        tempAdminService.qnaStoreModify(adminQnaDTO);
         return storeDetail(session, productQnaVO.getProductNum(), model);
     }
 

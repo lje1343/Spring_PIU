@@ -51,6 +51,7 @@
 </body>
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="/assets/js/Header.js"></script>
 <script th:inline="javascript">
     <!--    이미지 출력-->
     let strImg = "";
@@ -77,17 +78,31 @@
             const table = document.querySelector('table');
             var row = table.insertRow();
             str = "";
+            console.log(Aa[lngth].num);
             for (var i = 0; i < 4; i++) {
                 str += '<td>';
+                str += '<a href="/project/projectDetail?num='+Aa[lngth].num+'"'+'>';
                 str += '<div style="width:100%; height:100%;">';
                 str += '<div class="plogging-thumbnail-wrap2">';
                 str += '<span class="Jjim-image" id="image-list" href="'+Aa[lngth].num+'"></span>';
                 str += '</div>';
+                str += '</a>'
                 str += '<div class="deadline" style="width: 96%;" ><span class="material-symbols-outlined" style= "font-size: 14px; margin-left: 5px;">';
                 str += 'alarm';
-                str += '</span><div class="deadline-text">프로젝트 시작까지</div><div class="d-day">' + Aa[lngth].startTime + '</div></div>';
+                str += '</span><div class="deadline-text">프로젝트 시작까지</div><div class="d-day">' + Aa[lngth].projectDate + '</div></div>';
                 // str += '</span><div class="deadline-text">프로젝트 시작까지</div><div class="d-day">asdfasfdasfd</div></div>';
-                str += '<div class = "plogging-location-text">' + Aa[lngth].terrain + '</div>';
+                if (Aa[lngth].terrain==='1'){
+                str += '<div class = "plogging-location-text">' + "산" + '</div>'
+                }
+                if (Aa[lngth].terrain==='2'){
+                    str += '<div class = "plogging-location-text">' + "바다" + '</div>'
+                }
+                if (Aa[lngth].terrain==='3'){
+                    str += '<div class = "plogging-location-text">' + "평지" + '</div>'
+                }
+                if (Aa[lngth].terrain==='4'){
+                    str += '<div class = "plogging-location-text">' + "기타" + '</div>'
+                }
                 str += '<div class = "plogging-msg-text">' + Aa[lngth].title + '</div>'
                 // str += '<div class = "plogging-location-text">22222222222</div>';
                 // str += '<div class = "plogging-msg-text">333333333333</div>'
@@ -144,6 +159,30 @@
             };
         }
     };
+
+    $(function () {
+        $(document).mousedown(function (e) {
+            if ($(".CategoryListWrapper").is(":visible")) {
+                $(".CategoryListWrapper").each(function () {
+                    var l_position = $(this).offset();
+                    l_position.right = parseInt(l_position.left) + ($(this).width());
+                    l_position.bottom = parseInt(l_position.top) + parseInt($(this).height());
+
+                    if( ( l_position.left <= e.pageX && e.pageX <= l_position.right )
+                        && ( l_position.top <= e.pageY && e.pageY <= l_position.bottom ) ) {
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+        });
+        $(".nav-category-text-wrap").click(function () {
+            if (!$(".CategoryListWrapper").is(":visible")) {
+                $(".CategoryListWrapper").show();
+            }
+        });
+    });
+
 
     infinity_scroll();
 </script>

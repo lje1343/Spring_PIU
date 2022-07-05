@@ -1,10 +1,8 @@
 package com.example.pickitup.controller;
 
 
-import com.example.pickitup.domain.vo.product.productFile.ProductFileVO;
 import com.example.pickitup.domain.vo.project.projectFile.ProjectFileVO;
 import com.example.pickitup.service.ProjectService;
-import com.example.pickitup.service.project.projectFile.ProjectFileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
@@ -35,7 +33,6 @@ import java.util.UUID;
 public class ProjectFileRestController {
 
     private final ProjectService projectService;
-    private final ProjectFileService projectFileService;
 
 
     @PostMapping("/upload")
@@ -59,19 +56,8 @@ public class ProjectFileRestController {
 
             uploadFileName = uuid.toString() + "_" + uploadFileName;
 
-            log.info("--------------------------------");
-            log.info("Upload File Name : " + uploadFileName);
-            log.info("Upload File Size : " + file.getSize());
-
             File saveFile = new File(uploadPath, uploadFileName);
             file.transferTo(saveFile);
-
-//            if(checkImageType(saveFile)){
-//                FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
-//                Thumbnailator.createThumbnail(file.getInputStream(), thumbnail, 100, 100);
-//                thumbnail.close();
-//                fileVO.setImage(true);
-//            }
             files.add(projectFileVO);
         }
 
@@ -122,7 +108,7 @@ public class ProjectFileRestController {
     @GetMapping("/display")
     @ResponseBody
     public byte[] getFile(String fileName) throws IOException{
-        File file = new File("C:/upload/", fileName);
+        File file = new File("C:/upload", fileName);
         return FileCopyUtils.copyToByteArray(file);
     }
 
@@ -155,7 +141,7 @@ public class ProjectFileRestController {
     @GetMapping("/download")
     @ResponseBody
     public ResponseEntity<Resource> downloadFile(String fileName) throws UnsupportedEncodingException {
-        Resource resource = new FileSystemResource("/Users/minmin/aigb_0900_sms/upload/" + fileName);
+        Resource resource = new FileSystemResource("C:/upload" + fileName);
         HttpHeaders header = new HttpHeaders();
         String name = resource.getFilename();
         name = name.substring(name.indexOf("_") + 1);
@@ -175,8 +161,8 @@ public class ProjectFileRestController {
 
     @GetMapping("/list/{projectNum}")
     @ResponseBody
-    public List<ProjectFileVO> findByProductNum(@PathVariable("projectNum") Long projectNum){
-        return projectFileService.findByProjectNum(projectNum);
+    public List<ProjectFileVO> getList(@PathVariable("projectNum") Long projectNum){
+        return projectService.getProjectFileList(projectNum);
     }
 }
 

@@ -39,7 +39,6 @@ public class ProjectDAO {
     }
 
     // 전체 프로젝트 목록
-
     public List<ProjectDTO> getProjectList(ProjectCriteria projectCriteria){
         return projectMapper.getProjectList(projectCriteria);
     }
@@ -95,18 +94,28 @@ public class ProjectDAO {
     // 프로젝트 목록(코스별)
     public List<ProjectVO> getListCourse(String course){ return projectMapper.getListCourse(course); }
 
-    public List<ProjectVO> getListAll(){return projectMapper.getListAll();};
+    public List<ProjectVO> getListAll(){return projectMapper.getList();};
 
     public List<ProjectVO> getSearchList(String searchStr){return projectMapper.getSearchList(searchStr);};
 
 
     // 프로젝트 생성한 개수
-    public int getUserProjectTotal(Long companyNum){
+    public int getUserProjectTotal(Long companyNum) {
         return projectMapper.getUserProjectTotal(companyNum);
 
     }
 
     // 프로젝트 목록(지형으로 찾기)
-    public List<ProjectVO> getListTerrain(String terrain) {return projectMapper.getListTerrain(terrain);}
+    public List<ProjectVO> getListTerrain(String terrain) {
+        return projectMapper.getListTerrain(terrain);
+    }
 
+    //찜 한개 올리기
+    public void jjimPlus(Long projectNum){
+        projectMapper.jjimPlus(projectNum);
+    }
+    //찜 한개 내리기
+    public void jjimMinus(Long projectNum){
+        projectMapper.jjimMinus(projectNum);
+    }
 }
