@@ -284,8 +284,8 @@ body {
     display: flex;
     -webkit-box-pack: center;
     justify-content: center;
-    flex: 1 1 0%;
     margin:0 120px;
+    width: 100%;
 }
 
 .cpContentForm {
@@ -293,16 +293,17 @@ body {
 }
 
 .cpContentContainer {
-    flex: 1 1 0%;
+    width: 100%;
     padding: 6px 32px 60px;
 }
 
 .basicInfoContainer {
     display: flex;
+    width: 100%;
 }
 
 .basicInfoBox {
-    flex: 1 1 0%;
+    width: 100%;
 }
 
 .basicInfoText {
@@ -318,7 +319,6 @@ body {
 
 .basicInfoSubText {
     font-family: 'Noto Sans KR', sans-serif;
-    white-space: pre-wrap;
     margin-bottom: 32px;
     font-size: 12px;
     font-weight: normal;
@@ -353,7 +353,7 @@ body {
     background-color: white;
     height: 40px;
     flex: 1 1 auto;
-    width: 71%;
+    width: 61.5%;
     padding: 0px 48px 0px 16px;
     appearance: none;
     background-repeat: no-repeat;
@@ -383,9 +383,10 @@ option {
 
 .addressForm {
     display:flex;
-    justify-content: space-between;
+    justify-content: space-between;    left: 0;
+    top: 200px;
     margin-bottom: 8px;
-    width: 71%;
+    width: 62%;
 }
 .find_address, .end_address{
     background: white;
@@ -505,7 +506,7 @@ option {
     vertical-align: middle;
     border-radius: 3px;
     color: rgb(255, 255, 255);
-    background-color: rgb(255, 86, 0);
+    background-color: #1F89FF;
     font-weight: 500;
     font-size: 14px;
     letter-spacing: -0.2px;
@@ -932,7 +933,7 @@ option {
     display: flex;
     flex-direction: column;
     position: relative;
-    width: 185px;
+    width: 300px;
     height: 332px;
 }
 
@@ -1370,7 +1371,8 @@ option {
 }
 
 .cpCheckBox1, .cpCheckBox2, .cpCheckBox3 {
-    display: none;
+    width:24px;
+    height: 24px;
     margin: 0;
 }
 
@@ -1457,10 +1459,24 @@ label {
 }
 
 .endTime, .startTime{
-    width: 57%;
+    width: 52%;
     margin-bottom: 7px;
 }
 
 .hidden{
     display: none;
+}
+
+#mapBox{
+    width: 400px;
+    height: 400px;
+    position: relative;
+    right:175px;
+    top: 200px;
+}
+
+.group {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
 }

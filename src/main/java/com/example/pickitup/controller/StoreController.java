@@ -112,7 +112,7 @@ public class StoreController {
         model.addAttribute("fileName",session.getAttribute("fileName"));
         model.addAttribute("uploadPath",session.getAttribute("uploadPath"));
         model.addAttribute("checkLogin",checkLogin);
-        return productReviewService.getList(productNum);
+       return productReviewService.getList(productNum);
     }
 
     //유저 정보 얻어오기
@@ -151,21 +151,16 @@ public class StoreController {
     // 스토어 리뷰 작성 폼
     @PostMapping("/reviewWrite")
     public RedirectView reviewWriteForm(HttpSession session, ProductReviewVO productReviewVO, RedirectAttributes rttr,Long productNum, Model model){
-//        model.addAttribute("user", productNum); 유저의 정보 가져와야함.?? 어떻게??
         int checkLogin=3;
         Long userNum = Long.parseLong(session.getAttribute("num").toString());
         model.addAttribute("fileName",session.getAttribute("fileName"));
         model.addAttribute("uploadPath",session.getAttribute("uploadPath"));
         model.addAttribute("checkLogin",checkLogin);
-        log.info("===================================");
-        log.info("프로덕트넘버다"+productReviewVO.getProductNum());
-        log.info("===================================");
         productReviewVO.setUserNum(userNum);
-        log.info("productNum======="+productNum);
-        log.info("productNum======="+productReviewVO.getProductNum());
         productReviewService.insert(productReviewVO);
-        rttr.addAttribute("num",productNum);
+//      rttr.addAttribute("num",productNum);
         rttr.addAttribute("num",productReviewVO.getProductNum());
+        rttr.addAttribute("userNum",userNum);
         return new RedirectView("/store/detail");
 //
     }
@@ -222,7 +217,7 @@ public class StoreController {
         model.addAttribute("fileName",session.getAttribute("fileName"));
         model.addAttribute("uploadPath",session.getAttribute("uploadPath"));
         model.addAttribute("checkLogin",checkLogin);
-        return new ProductQnaPageDTO(productQnaService.getList(new ProductQnaCriteria(pageNum,5),productNum),productQnaService.count(productNum));
+       return new ProductQnaPageDTO(productQnaService.getList(new ProductQnaCriteria(pageNum,5),productNum),productQnaService.count(productNum));
     }
 
     // 스토어 문의 작성
@@ -323,7 +318,7 @@ public class StoreController {
         productQnaCommentService.register(productQnaCommentVO);
         return "success";
     }
-    //
+//
     // 스토어 문의 댓글 삭제
     // 관리자 번호와 같이 넘어와야함
     @ResponseBody
@@ -477,7 +472,7 @@ public class StoreController {
         model.addAttribute("fileName",session.getAttribute("fileName"));
         model.addAttribute("uploadPath",session.getAttribute("uploadPath"));
         model.addAttribute("checkLogin",checkLogin);
-        return jjimService.getList();
+       return jjimService.getList();
     }
 
 

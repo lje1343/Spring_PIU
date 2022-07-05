@@ -32,11 +32,13 @@
     </update>
 
     <!-- 프로젝트 지원  -->
-    <insert id="applyProject">
+    <insert id="insert">
         INSERT INTO TBL_APPLY
-        (NUM, REGIST_DATE, PROJECT_NUM, USER_NUM)
-        VALUES(SEQ_APPLY.NEXTVAL, SYSDATE, #{projectNum}, #{userNum})
+        (NUM, REGIST_DATE, APPROACH, PROJECT_NUM, USER_NUM)
+        VALUES(SEQ_APPLY.NEXTVAL, SYSDATE,NULL, #{projectNum}, #{userNum})
     </insert>
+
+
 
     <!-- 신청한 유저정보 불러오기 -->
     <select id="getApplyUser" resultType="applyDTO">
@@ -66,7 +68,7 @@
     <!-- 유저 플로깅 완료   -->
     <update id="userFinish">
         UPDATE TBL_APPLY
-        SET APPROACH='3'
+        SET APPROACH='4'
         WHERE NUM = #{num}
     </update>
 

@@ -24,8 +24,8 @@
     </select>
 
     <select id="getList" resultType="jjimVO">
-    SELECT NUM, CATEGORY, REGIST_DATE, USER_NUM, PROJECT_NUM, PRODUCT_NUM
-    FROM TBL_JJIM
+        SELECT NUM, CATEGORY, REGIST_DATE, USER_NUM, PROJECT_NUM, PRODUCT_NUM
+        FROM TBL_JJIM
     </select>
 
     <insert id="insert">
@@ -40,8 +40,8 @@
     </delete>
 
     <select id="count" resultType="_int">
-    SELECT COUNT(NUM) FROM TBL_JJIM
-    WHERE PRODUCT_NUM =#{productNum}
+        SELECT COUNT(NUM) FROM TBL_JJIM
+        WHERE PRODUCT_NUM =#{productNum}
     </select>
 
     <insert id="myProjectJjimInsert">
@@ -51,8 +51,8 @@
     </insert>
 
     <select id="myProjectJjimCount" resultType="_int">
-    SELECT COUNT(NUM) FROM TBL_JJIM
-    WHERE PROJECT_NUM =#{projectNum}
+        SELECT JJIM_COUNT FROM TBL_PROJECT
+        WHERE NUM = #{projectNum}
     </select>
 
     <delete id="myProjectJjimDelete">
@@ -61,21 +61,3 @@
     </delete>
 
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

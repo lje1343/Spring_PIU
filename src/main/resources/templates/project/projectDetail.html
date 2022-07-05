@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="/assets/css/pickitupStore.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
 </head>
 
 <body>
@@ -24,7 +23,7 @@
                 <div class="ploggingImageForm">
                     <div class ="ploggingImage">
                         <picture class="ploggingImg">
-                            <img th:src="@{/projectFile/display?fileName=} + ${img[0].uploadPath} + @{/} + ${img[0].uuid} + @{_} + ${img[0].fileName}" alt="" id="img1">
+<!--                            <img th:src="@{/projectFile/display?fileName=} + ${img[0].uploadPath} + @{/} + ${img[0].uuid} + @{_} + ${img[0].fileName}" alt="" id="img1">-->
                         </picture>
                     </div>
                 </div>
@@ -274,8 +273,8 @@
     // 프로젝트 번호
     let projectNum = [[${project.num}]];
     // 유저 번호(접속)
-    // let userNum = [[${userNum}]];
-    let userNum = 44;
+    let userNum = [[${userNum}]];
+    alert(userNum)
 
 
     let start = [[${project.startAddress}]];
@@ -394,17 +393,11 @@
                 data: JSON.stringify({"userNum": userNum, "projectNum": projectNum, "category": "2"}),
                 contentType: "application/json; charset=utf-8;",
                 success: function(){
-                    $('.pLikeImage').html("<span class='material-icons-outlined'>favorite</span>");
+                    console.log('찜 추가');
+                    $('.pLikeImage').html("<span class=\"material-icons\">favorite</span>");
 
-                    // 찜 개수
-                    $.ajax({
-                        url: "/project/jjim/" + projectNum,
-                        type: "get",
-                        success: function(count){
-                            $('.pLikeCount').html(count);
-
-                        }
-                    });
+                    //찜 갯수
+                    jjimCount();
                 }
             });
             jjimCheck++;
@@ -417,16 +410,11 @@
                 data: JSON.stringify({"userNum": userNum, "projectNum": projectNum}),
                 contentType: "application/json; charset=utf-8;",
                 success: function(){
+                    console.log('찜 삭제');
                     $('.pLikeImage').html("<span class=\"material-symbols-outlined\" id=\"heart\">favorite</span>\n");
-                    // 찜 개수
-                    $.ajax({
-                        url: "/project/jjim/" + num,
-                        type: "get",
-                        success: function(count){
-                            $('.pLikeCount').html(count);
 
-                        }
-                    });
+                    //찜 갯수
+                    jjimCount();
                 }
             });
             jjimCheck--;
@@ -435,16 +423,19 @@
 
     });
 
-
+    jjimCount();
     // 찜 개수
-    $.ajax({
-        url: "/project/jjim/" + projectNum,
-        type: "get",
-        success: function(count){
-            $('.pLikeCount').html(count);
+    function jjimCount(){
+        $.ajax({
+            url: "/project/jjim/" + projectNum,
+            type: "get",
+            success: function(count){
+                $('.pLikeCount').html(count);
 
-        }
-    });
+            }
+        });
+
+    }
 
 
 
@@ -481,7 +472,7 @@
                 console.log(files[i]);
 
                 str += "<picture class=\"pIntroduceContent\" >";
-                str += "<img src=\"/projectFile/display?fileName="+ files[i].uploadPath + "/" + files[i].uuid + "_" + files[i].fileName + "\">";
+                // str += "<img src=\"/projectFile/display?fileName="+ files[i].uploadPath + "/" + files[i].uuid + "_" + files[i].fileName + "\">";
                 str += "</picture>";
             }
             $('.imgBox').append(str);

@@ -36,6 +36,5 @@ public class ProjectVO {
     // 체크
     private Long applyCount;
     // 체크
-    private String nickname;
     private List<ProjectFileVO> fileList;
 }
